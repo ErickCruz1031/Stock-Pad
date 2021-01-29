@@ -20,7 +20,7 @@ import Typography from '@material-ui/core/Typography';
 */
 const useStyles = makeStyles({
   media: {
-    height: 200,
+    height: 80,
   },
 });
 
