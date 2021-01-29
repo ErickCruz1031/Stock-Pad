@@ -5,7 +5,7 @@ import Header from './Header'
 import Grid from '@material-ui/core/Grid';
 import { Card } from '@material-ui/core';
 import { sizing,palette  } from '@material-ui/system';
-import {makeStyles} from '@material-ui/styles'
+import {makeStyles} from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField';
 import Box from '@material-ui/core/Box';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -14,6 +14,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import { CenterFocusStrong } from '@material-ui/icons';
 
 
 const useStyles = makeStyles(() =>({
@@ -24,10 +25,12 @@ const useStyles = makeStyles(() =>({
         flex : 1
     },
     media: {
-        height: 140,
+        height: 100,
+        width:100,
     },
     rootCard: {
         height: 550,
+        alignItems: 'center',
     },
 }))
 
@@ -67,28 +70,25 @@ const CompanyPage = () =>{
                                     <CardActionArea>
                                         <CardMedia
                                         className={classes.media}
-                                        image="/static/images/cards/contemplative-reptile.jpg"
-                                        title="Contemplative Reptile"
+                                        image="https://s3.polygon.io/logos/tsla/logo.png"
+                                        title="TSLA"
                                         />
                                         <CardContent>
-                                            <Typography gutterBottom variant="h5" component="h2">
-                                                Tesla
-                                            </Typography>
-                                            <Typography variant="h5" color="textSecondary" component="p">
-                                                Company description
-                                            </Typography>
-                                            <Typography variant="h5" color="textSecondary" component="p">
-                                                Company description
-                                            </Typography>
-                                            <Typography variant="h5" color="textSecondary" component="p">
-                                                Company description
-                                            </Typography>
-                                            <Typography variant="h5" color="textSecondary" component="p">
-                                                Company description
-                                            </Typography>
-                                            <Typography variant="h5" color="textSecondary" component="p">
-                                                Company description
-                                            </Typography>
+
+                                            <Grid container direction="row" spacing={1} justify="center" alignItems="center">
+                                                <Grid item xs={6}>
+                                                    <Typography variant="h5" color="textSecondary" component="p">
+                                                        Company description
+                                                    </Typography>
+                                                </Grid>
+                                                <Grid item xs={6}>
+                                                    <Typography variant="h5" color="textSecondary" component="p">
+                                                        Company Two
+                                                    </Typography>
+                                                </Grid>
+                                            </Grid>
+
+
                                         </CardContent>
                                     </CardActionArea>
                                     <CardActions>
@@ -112,3 +112,42 @@ const CompanyPage = () =>{
 }
 
 export default CompanyPage;
+
+/*
+<Typography gutterBottom variant="h5" component="h2">
+                                                Tesla
+                                            </Typography>
+                                            <Typography variant="h5" color="textSecondary" component="p">
+                                                Company description
+                                            </Typography>
+                                            <Typography variant="h5" color="textSecondary" component="p">
+                                                Company description
+                                            </Typography>
+                                            <Typography variant="h5" color="textSecondary" component="p">
+                                                Company description
+                                            </Typography>
+                                            <Typography variant="h5" color="textSecondary" component="p">
+                                                Company description
+                                            </Typography>
+                                            <Typography variant="h5" color="textSecondary" component="p">
+                                                Company description
+                                            </Typography>
+                                            <Typography variant="h5" color="textSecondary" component="p">
+                                                Company description
+                                            </Typography>
+                                            <Typography variant="h5" color="textSecondary" component="p">
+                                                Company description
+                                            </Typography>
+                                            <Typography variant="h5" color="textSecondary" component="p">
+                                                Company description
+                                            </Typography>
+                                            <Typography variant="h5" color="textSecondary" component="p">
+                                                Company description
+                                            </Typography>
+                                            <Typography variant="h5" color="textSecondary" component="p">
+                                                Company description
+                                            </Typography>
+
+
+
+*/
