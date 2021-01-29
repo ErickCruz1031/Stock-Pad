@@ -8,13 +8,19 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
-const useStyles = makeStyles({
+
+
+/*
+
   root: {
     maxWidth: 345,
     paddingTop:2,
   },
+
+*/
+const useStyles = makeStyles({
   media: {
-    height: 140,
+    height: 200,
   },
 });
 
@@ -24,7 +30,7 @@ const StockRow = () =>{
 
 
     return(
-        <Card className={classes.root}>
+        <Card>
         <CardActionArea>
           <CardMedia
             className={classes.media}

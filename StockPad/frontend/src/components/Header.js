@@ -6,8 +6,7 @@ import {makeStyles} from '@material-ui/styles'
 
 const useStyles = makeStyles(() =>({
     typographyStyle : {
-        flex : 1,
-        color: 'red'
+        flex : 1
     }
 
 }))

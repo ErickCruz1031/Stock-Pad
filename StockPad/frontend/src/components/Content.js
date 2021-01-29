@@ -13,9 +13,7 @@ const useStyles = makeStyles({
 const Content = () =>{
 
     return(
-        <Box pt={2}>
             <StockRow />
-        </Box>
     )
 }
 
