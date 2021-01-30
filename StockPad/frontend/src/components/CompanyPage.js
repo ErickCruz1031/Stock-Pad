@@ -27,12 +27,29 @@ const useStyles = makeStyles(() =>({
     media: {
         height: 100,
         width:100,
+        borderRadius:'5px',
     },
     rootCard: {
         height: 550,
         alignItems: 'center',
     },
+    picCont:{ 
+        display:'flex', 
+        flexDirection:'column', 
+        alignItems:'center' 
+    },
+    gridCard:{
+        display : 'flex',
+        flexDirection:'column',
+        alignItems:'center',
+
+    },
+    textCont:{
+        width:'200%',
+    },
 }))
+
+//The textcont was the one that got the spacing and other stuff down
 
 /*    rootCard: {
         maxWidth: 345,
@@ -68,28 +85,37 @@ const CompanyPage = () =>{
                             <Grid item xs={12}>
                                 <Card className={classes.rootCard}>
                                     <CardActionArea>
-                                        <CardMedia
-                                        className={classes.media}
-                                        image="https://s3.polygon.io/logos/tsla/logo.png"
-                                        title="TSLA"
-                                        />
-                                        <CardContent>
+                                                <CardMedia
+                                                className={classes.media}
+                                                image="https://s3.polygon.io/logos/tsla/logo.png"
+                                                title="TSLA"
+                                                />
+                                               <CardContent >
 
-                                            <Grid container direction="row" spacing={1} justify="center" alignItems="center">
-                                                <Grid item xs={6}>
-                                                    <Typography variant="h5" color="textSecondary" component="p">
-                                                        Company description
-                                                    </Typography>
-                                                </Grid>
-                                                <Grid item xs={6}>
-                                                    <Typography variant="h5" color="textSecondary" component="p">
-                                                        Company Two
-                                                    </Typography>
-                                                </Grid>
-                                            </Grid>
+                                                    <Grid container className={classes.gridCard} spacing={1} direction="column">
+                                                            <Grid item xs={12}>
+                                                                <Typography variant="h5" color="textSecondary" component="p">
+                                                                    Company description
+                                                                </Typography>
+                                                            </Grid>
 
-
-                                        </CardContent>
+                                                            <Grid item xs={12}>
+                                                                <Typography gutterBottom variant="h5" component="h2">
+                                                                    Tesla
+                                                                </Typography>
+                                                            </Grid>
+                                                            <Grid item xs={12}>
+                                                                <Typography gutterBottom variant="h5" component="h2">
+                                                                    Tesla2
+                                                                </Typography>
+                                                            </Grid>
+                                                            <Grid item xs={12}>
+                                                                <Typography gutterBottom variant="h5" component="h2">
+                                                                    Tesla3
+                                                                </Typography>
+                                                            </Grid>
+                                                    </Grid>
+                                                </CardContent>
                                     </CardActionArea>
                                     <CardActions>
                                         <Button size="small" color="primary">
@@ -97,18 +123,21 @@ const CompanyPage = () =>{
                                         </Button>
                                     </CardActions>
                                 </Card>
+
                             </Grid>
                         </Grid>
-                        
                     </Grid>
+                
+                </Grid>
+                <Grid>
 
                     <Grid item xs={2} />
 
-                </Grid>
-            </Grid>
-        </div>
-    )
-    
+                 </Grid>
+             </Grid>
+    </div>
+)
+
 }
 
 export default CompanyPage;
