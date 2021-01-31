@@ -12,6 +12,7 @@ import { sizing,palette  } from '@material-ui/system';
 import {makeStyles} from '@material-ui/styles'
 import TextField from '@material-ui/core/TextField';
 import Box from '@material-ui/core/Box';
+import {useState, useEffect} from 'react';
 
 
 
@@ -30,11 +31,38 @@ const useStyles = makeStyles(() =>({
 const App = () =>{
 
     const classes = useStyles();
+
+    const [tickerList, updateTickerList] = useState([
+        {ticker : "TSLA", headline: "Tesla news", description: "New Desc."},
+        {ticker : "AAPL", headline: "AAPL News", description: "News Desc."},
+        {ticker : "GME", headline: "GME News", description: "News Desc."}
+    ]); //Set the array to an empty list 
+
+    const [compPageStatus, setCompPage] = useState(false); //At first the company page doesn't show 
+    const [notebookStatus, setNotebookStatus] = useState(false);
+
+    const queryTrigger = input =>{
+        console.log("This was the input of the query ", input);
+        setCompPage(!compPageStatus);
+    }
+
+
    
     return(
-        <div className={classes.root}>
-            <CompanyPage />
-        </div>
+
+        compPageStatus ?
+            
+            <div className={classes.root}>
+                <CompanyPage />
+            </div>
+
+            : 
+            <div className={classes.root}>
+                <Home stockList={tickerList} queryFunc={queryTrigger}/>
+            </div>
+
+
+        
     )
     
 }

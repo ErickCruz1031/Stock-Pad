@@ -10,7 +10,8 @@ import { sizing,palette  } from '@material-ui/system';
 import {makeStyles} from '@material-ui/styles'
 import TextField from '@material-ui/core/TextField';
 import Box from '@material-ui/core/Box';
-
+import Button from '@material-ui/core/Button';
+import {useState} from 'react';
 
 const useStyles = makeStyles(() =>({
     root: {
@@ -24,9 +25,20 @@ const useStyles = makeStyles(() =>({
 }))
 
 
-const Home = () =>{
+const Home = ({stockList, queryFunc}) =>{
 
     const classes = useStyles();
+
+    const [textInput, setText] = useState("");
+
+    const inputChange = e =>{
+        setText(e.target.value);
+    }
+
+    const enterTrigger = () =>{
+        console.log("This is the Enter event trigger");
+        queryFunc(textInput);
+    }
    
     return(
         <div className={classes.root}>
@@ -40,16 +52,26 @@ const Home = () =>{
                 <Grid container direction="row">
                     <Grid item xs={2} />
                     <Grid item xs={8}>
-                        <Grid container direction="columns" spacing={10} justify="center" alignItems="center">
-                            <Grid item xs={12} alignItems="center" justify="center">
+                        <Grid container direction="row" spacing={10} justify="center" alignItems="center">
+                            <Grid item xs={4}>
                                 <Box pt={10}>
-                                    <TextField id="standard-basic" placeholder="Enter Ticker Here"/>
+                                    <TextField id="standard-basic" placeholder="Enter Ticker Here" onChange={inputChange}/>
                                 </Box>
                             </Grid>
+
+                            <Grid item xs={2}>
+                                <Box pt={10}>
+                                    <Button variant="contained" color="secondary" onClick={enterTrigger}>
+                                        Search
+                                    </Button>
+                                </Box>
+                            </Grid>
+                            <Grid item xs={6} />
+
                             <Grid item xs={12}>
-                                <StockRow/>
-                                <StockRow />
-                                <StockRow />
+                                <StockRow newsItem={stockList[0]} />
+                                <StockRow newsItem={stockList[1]} />
+                                <StockRow newsItem={stockList[2]}/>
                             </Grid>
                         </Grid>
                     </Grid>

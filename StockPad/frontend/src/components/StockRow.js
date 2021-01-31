@@ -7,7 +7,10 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-
+import {useState, useEffect} from 'react';
+//import "core-js/stable";
+//import "regenerator-runtime/runtime";
+import regeneratorRuntime from "regenerator-runtime"
 
 
 /*
@@ -20,13 +23,59 @@ import Typography from '@material-ui/core/Typography';
 */
 const useStyles = makeStyles({
   media: {
-    height: 80,
+    height: 160,
   },
 });
 
 
-const StockRow = () =>{
+
+
+
+const StockRow = ({newsItem}) =>{
     const classes = useStyles();
+
+    const [tickerHeadline, updateHeadline] = useState("");
+    const [headlineDesc, updateDesc] = useState("");
+
+
+    useEffect(() =>{
+      console.log("We are mounting this component into the page.");
+    
+      const apiCall = async () =>{
+        const query = "https://api.polygon.io/v1/meta/symbols/" + newsItem.ticker + "/news?perpage=10&page=1&apiKey=EwdgXn2W7ptj4vkx9B40T3HiVEvV4v3e";
+        const res = await fetch(query);
+        const data = await res.json();
+        updateHeadline(data[0].title);
+        updateDesc(data[0].summary);
+        //Just use the title and summary for the first one right now
+
+      }
+
+      apiCall();
+
+    
+    }, [])
+
+
+    return(
+        <Card>
+        <CardActionArea>
+          <CardContent className={classes.media}>
+            <Typography gutterBottom variant="h5" component="h2">
+              {tickerHeadline}
+            </Typography>
+            <Typography variant="body2" color="textSecondary" component="p">
+              {headlineDesc}
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+      </Card>
+    )
+}
+
+export default StockRow;
+
+/*
 
 
     return(
@@ -39,15 +88,14 @@ const StockRow = () =>{
           />
           <CardContent>
             <Typography gutterBottom variant="h5" component="h2">
-              Company Name
+              {newsItem.headline}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
-                Description of the Article
+                {newsItem.description}
             </Typography>
           </CardContent>
         </CardActionArea>
       </Card>
     )
 }
-
-export default StockRow;
+*/

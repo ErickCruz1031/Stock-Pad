@@ -15,7 +15,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { CenterFocusStrong } from '@material-ui/icons';
-
+import {useEffect, useState} from 'react'
 
 const useStyles = makeStyles(() =>({
     root: {
@@ -58,9 +58,11 @@ const useStyles = makeStyles(() =>({
       */
 
 
-const CompanyPage = () =>{
+const CompanyPage = ({stockList}) =>{
 
     const classes = useStyles();
+
+
    
     return(
         <div className={classes.root}>
@@ -94,24 +96,24 @@ const CompanyPage = () =>{
 
                                                     <Grid container className={classes.gridCard} spacing={1} direction="column">
                                                             <Grid item xs={12}>
-                                                                <Typography variant="h5" color="textSecondary" component="p">
-                                                                    Company description
+                                                                <Typography variant="h3" component="p">
+                                                                    Tesla
                                                                 </Typography>
                                                             </Grid>
 
                                                             <Grid item xs={12}>
-                                                                <Typography gutterBottom variant="h5" component="h2">
-                                                                    Tesla
+                                                                <Typography gutterBottom variant="h6" component="p">
+                                                                    CEO
                                                                 </Typography>
                                                             </Grid>
                                                             <Grid item xs={12}>
-                                                                <Typography gutterBottom variant="h5" component="h2">
-                                                                    Tesla2
+                                                                <Typography gutterBottom variant="h6" component="p">
+                                                                    Narket Cap
                                                                 </Typography>
                                                             </Grid>
                                                             <Grid item xs={12}>
-                                                                <Typography gutterBottom variant="h5" component="h2">
-                                                                    Tesla3
+                                                                <Typography gutterBottom variant="h6" component="p">
+                                                                    Price
                                                                 </Typography>
                                                             </Grid>
                                                     </Grid>
