@@ -16,6 +16,10 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { CenterFocusStrong } from '@material-ui/icons';
 import {useEffect, useState} from 'react'
+import regeneratorRuntime from "regenerator-runtime";
+//import FittedImage from 'react-fitted-image';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 
 const useStyles = makeStyles(() =>({
     root: {
@@ -49,18 +53,42 @@ const useStyles = makeStyles(() =>({
     },
 }))
 
-//The textcont was the one that got the spacing and other stuff down
 
-/*    rootCard: {
-        maxWidth: 345,
-      },
-
-      */
-
-
-const CompanyPage = ({stockList}) =>{
+const CompanyPage = ({queryTicker}) =>{
 
     const classes = useStyles();
+
+    const [compName, setName] = useState("");
+    const [ceoText, setCeo] = useState("");
+    const [descText, setDesc] = useState("");
+    const [capText, setCap] = useState(0);
+    const [similar, setSimilar] = useState([]); //Empty array at first 
+    const [imageURL, setURL] = useState("");
+
+
+    useEffect(() =>{
+
+        const apiCall = async() =>{
+            const query = "https://api.polygon.io/v1/meta/symbols/" + queryTicker + "/company?apiKey=EwdgXn2W7ptj4vkx9B40T3HiVEvV4v3e";
+            //https://api.polygon.io/v1/meta/symbols/TSLA/company?apiKey=EwdgXn2W7ptj4vkx9B40T3HiVEvV4v3e
+            console.log("this is the query: ", query);
+            const res = await fetch(query);
+            const data = await res.json();
+            console.log("This is the data ", data);
+            setName(data.name);//Set company name
+            setCeo(data.ceo);//Set CEO name
+            setDesc(data.description)//Set company name
+            setCap(data.marketcap);//Set market cap (Will have to format this number at a later time)
+            setSimilar(data.similar); //Set equal to array of similar tickers
+            setURL(data.logo);//Set image URL for logo pictire
+
+        }
+
+        apiCall();
+
+
+    }, []) //Make sure it only executed when the component is created
+
 
 
    
@@ -87,35 +115,72 @@ const CompanyPage = ({stockList}) =>{
                             <Grid item xs={12}>
                                 <Card className={classes.rootCard}>
                                     <CardActionArea>
-                                                <CardMedia
-                                                className={classes.media}
-                                                image="https://s3.polygon.io/logos/tsla/logo.png"
-                                                title="TSLA"
-                                                />
+                                                <> {imageURL ? 
+
+                                                    <CardMedia
+                                                    className={classes.media}
+                                                    image={imageURL}
+                                                    title="TSLA"
+                                                    />
+
+                                                    :
+
+                                                    <CircularProgress />
+
+                                                 }          
+                                                </>
+                                    
                                                <CardContent >
 
                                                     <Grid container className={classes.gridCard} spacing={1} direction="column">
                                                             <Grid item xs={12}>
                                                                 <Typography variant="h3" component="p">
-                                                                    Tesla
+                                                                    {compName}
                                                                 </Typography>
                                                             </Grid>
 
                                                             <Grid item xs={12}>
-                                                                <Typography gutterBottom variant="h6" component="p">
+                                                                <Typography gutterBottom variant="h5" component="p">
+                                                                    Description
+                                                                </Typography>
+                                                            </Grid>
+                                                            <Grid item xs={12}>
+                                                                <Typography gutterBottom variant="body1" component="p">
+                                                                    {descText}
+                                                                </Typography>
+                                                            </Grid>
+                                                            <Grid item xs={12}>
+                                                                <Typography gutterBottom variant="h5" component="p">
                                                                     CEO
                                                                 </Typography>
                                                             </Grid>
                                                             <Grid item xs={12}>
-                                                                <Typography gutterBottom variant="h6" component="p">
-                                                                    Narket Cap
+                                                                <Typography gutterBottom variant="body1" component="p">
+                                                                    {ceoText}
                                                                 </Typography>
                                                             </Grid>
                                                             <Grid item xs={12}>
-                                                                <Typography gutterBottom variant="h6" component="p">
-                                                                    Price
+                                                                <Typography gutterBottom variant="h5" component="p">
+                                                                    Market Cap
                                                                 </Typography>
                                                             </Grid>
+                                                            <Grid item xs={12}>
+                                                                <Typography gutterBottom variant="body1" component="p">
+                                                                    {capText}
+                                                                </Typography>
+                                                            </Grid>
+                                                            <Grid item xs={12}>
+                                                                <Typography gutterBottom variant="h5" component="p">
+                                                                    Similar
+                                                                </Typography>
+                                                            </Grid>
+                                                            <Grid item xs={12}>
+                                                                <Typography gutterBottom variant="body1" component="p">
+                                                                    {similar}
+                                                                </Typography>
+                                                            </Grid>
+                                                            
+                                                            
                                                     </Grid>
                                                 </CardContent>
                                     </CardActionArea>
@@ -145,40 +210,14 @@ const CompanyPage = ({stockList}) =>{
 export default CompanyPage;
 
 /*
-<Typography gutterBottom variant="h5" component="h2">
-                                                Tesla
-                                            </Typography>
-                                            <Typography variant="h5" color="textSecondary" component="p">
-                                                Company description
-                                            </Typography>
-                                            <Typography variant="h5" color="textSecondary" component="p">
-                                                Company description
-                                            </Typography>
-                                            <Typography variant="h5" color="textSecondary" component="p">
-                                                Company description
-                                            </Typography>
-                                            <Typography variant="h5" color="textSecondary" component="p">
-                                                Company description
-                                            </Typography>
-                                            <Typography variant="h5" color="textSecondary" component="p">
-                                                Company description
-                                            </Typography>
-                                            <Typography variant="h5" color="textSecondary" component="p">
-                                                Company description
-                                            </Typography>
-                                            <Typography variant="h5" color="textSecondary" component="p">
-                                                Company description
-                                            </Typography>
-                                            <Typography variant="h5" color="textSecondary" component="p">
-                                                Company description
-                                            </Typography>
-                                            <Typography variant="h5" color="textSecondary" component="p">
-                                                Company description
-                                            </Typography>
-                                            <Typography variant="h5" color="textSecondary" component="p">
-                                                Company description
-                                            </Typography>
+This was after the <CardActionArea> tag 
 
+
+<CardMedia
+className={classes.media}
+image="https://s3.polygon.io/logos/tsla/logo.png"
+title="TSLA"
+/>
 
 
 */

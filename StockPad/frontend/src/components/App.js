@@ -40,10 +40,12 @@ const App = () =>{
 
     const [compPageStatus, setCompPage] = useState(false); //At first the company page doesn't show 
     const [notebookStatus, setNotebookStatus] = useState(false);
+    const [queryTicker, setQuery] = useState("");
 
     const queryTrigger = input =>{
         console.log("This was the input of the query ", input);
         setCompPage(!compPageStatus);
+        setQuery(input);
     }
 
 
@@ -53,7 +55,7 @@ const App = () =>{
         compPageStatus ?
             
             <div className={classes.root}>
-                <CompanyPage />
+                <CompanyPage queryTicker={queryTicker}/>
             </div>
 
             : 
