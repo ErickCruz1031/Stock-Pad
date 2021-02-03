@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {AppBar, Toolbar, Typography} from '@material-ui/core'
-import {makeStyles} from '@material-ui/styles'
+import {makeStyles} from '@material-ui/styles';
+import Button from '@material-ui/core/Button';
 
 
 const useStyles = makeStyles(() =>({
@@ -22,6 +23,10 @@ const Header = () =>{
                 <Typography className={classes.typographyStyle}>
                     Stock Pad
                 </Typography>
+                
+                <Button variant="contained" color="secondary">
+                    Notebook
+                </Button>
             </Toolbar>
         </AppBar>
     )

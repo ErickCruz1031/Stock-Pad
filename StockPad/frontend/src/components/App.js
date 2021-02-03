@@ -13,6 +13,7 @@ import {makeStyles} from '@material-ui/styles'
 import TextField from '@material-ui/core/TextField';
 import Box from '@material-ui/core/Box';
 import {useState, useEffect} from 'react';
+import UserList from './UserList';
 
 
 
@@ -52,6 +53,23 @@ const App = () =>{
    
     return(
 
+
+        
+        <div className={classes.root}>
+            <UserList />
+        </div>
+
+)
+    
+}
+
+const rootDiv = document.getElementById('root');
+render(<App />, rootDiv);
+
+
+/*
+    return(
+
         compPageStatus ?
             
             <div className={classes.root}>
@@ -67,8 +85,4 @@ const App = () =>{
         
     )
     
-}
-
-const rootDiv = document.getElementById('root');
-render(<App />, rootDiv);
-
+*/

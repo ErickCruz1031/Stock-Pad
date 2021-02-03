@@ -7,7 +7,7 @@ import Content from './Content';
 import StockRow from './StockRow';
 import { Card } from '@material-ui/core';
 import { sizing,palette  } from '@material-ui/system';
-import {makeStyles} from '@material-ui/styles'
+import {makeStyles} from '@material-ui/styles';
 import TextField from '@material-ui/core/TextField';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
