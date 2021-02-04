@@ -11,6 +11,27 @@ class StockNoteView(generics.ListAPIView):
     serializer_class = StockNoteSerializer
 
 
+
+
+
+class getStockNote(APIView):
+    serializer_class = StockNoteSerializer
+    lookup_url_kwarg = 'symbol'
+
+    def get(self, request, format=None):
+        symbol = request.GET.get(self.lookup_url_kwarg)
+
+        if symbol != None:
+            target = StockNote.objects.filter(ticker=symbol)
+            if len(target) > 0: #If the query matches something
+                data = StockNoteSerializer(target[0]).data
+                return Response(data, status=status.HTTP_200_OK)
+            return Response({'Room Not Found: Invalid Ticker'}, status=status.HTTP_404_NOT_FOUND)
+        return Response({'Bad Request: Parameter Not Included'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
 class CreateStockNoteView(APIView):
     serializer_class = createStockNote
 
