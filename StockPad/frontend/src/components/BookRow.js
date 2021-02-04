@@ -22,6 +22,7 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import AlarmIcon from '@material-ui/icons/Alarm';
 
+
 /*
 
   root: {
@@ -32,11 +33,10 @@ import AlarmIcon from '@material-ui/icons/Alarm';
 */
 const useStyles = makeStyles((theme) => ({
   media: {
-    height: 100,
+    height: 60,
   },
   expand: {
     transform: 'rotate(0deg)',
-    marginLeft: 'auto',
     transition: theme.transitions.create('transform', {
       duration: theme.transitions.duration.shortest,
     }),

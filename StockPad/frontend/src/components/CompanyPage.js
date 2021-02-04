@@ -34,7 +34,7 @@ const useStyles = makeStyles(() =>({
         borderRadius:'5px',
     },
     rootCard: {
-        height: 550,
+        height: 580,
         alignItems: 'center',
     },
     picCont:{ 
@@ -54,7 +54,7 @@ const useStyles = makeStyles(() =>({
 }))
 
 
-const CompanyPage = ({queryTicker}) =>{
+const CompanyPage = ({searchTicker}) =>{
 
     const classes = useStyles();
 
@@ -69,7 +69,7 @@ const CompanyPage = ({queryTicker}) =>{
     useEffect(() =>{
 
         const apiCall = async() =>{
-            const query = "https://api.polygon.io/v1/meta/symbols/" + queryTicker + "/company?apiKey=EwdgXn2W7ptj4vkx9B40T3HiVEvV4v3e";
+            const query = "https://api.polygon.io/v1/meta/symbols/" + searchTicker + "/company?apiKey=EwdgXn2W7ptj4vkx9B40T3HiVEvV4v3e";
             //https://api.polygon.io/v1/meta/symbols/TSLA/company?apiKey=EwdgXn2W7ptj4vkx9B40T3HiVEvV4v3e
             console.log("this is the query: ", query);
             const res = await fetch(query);
@@ -134,7 +134,7 @@ const CompanyPage = ({queryTicker}) =>{
 
                                                     <Grid container className={classes.gridCard} spacing={1} direction="column">
                                                             <Grid item xs={12}>
-                                                                <Typography variant="h3" component="p">
+                                                                <Typography variant="h4" component="p">
                                                                     {compName}
                                                                 </Typography>
                                                             </Grid>

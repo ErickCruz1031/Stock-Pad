@@ -6,4 +6,8 @@ class StockNoteSerializer(serializers.HyperlinkedModelSerializer):
         model = StockNote
         fields = ('id', 'ticker', 'notes', 'userID') #id is given by default
 
+class createStockNote(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = StockNote
+        fields =('ticker', 'notes')
 #ModelSerializers

@@ -3,6 +3,7 @@ import {makeStyles} from '@material-ui/styles';
 import Grid from '@material-ui/core/Grid';
 import Header from './Header';
 import BookRow from './BookRow'
+import Box from '@material-ui/core/Box';
 
 
 
@@ -33,6 +34,7 @@ const UserList = () =>{
                     <Grid item xs={2} />
 
                     <Grid item xs={8}>
+                        <Box pt={6}>
                         <Grid container direction="column" spacing={2}>
                             <Grid item xs={12}>
                                 <BookRow />
@@ -45,7 +47,12 @@ const UserList = () =>{
                             <Grid item xs={12}>
                                 <BookRow />
                             </Grid>
+
+                            <Grid item xs={12}>
+                                <BookRow />
+                            </Grid>
                         </Grid>
+                        </Box>
                     </Grid>
 
                     <Grid item xs={2} />

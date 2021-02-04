@@ -14,6 +14,7 @@ import TextField from '@material-ui/core/TextField';
 import Box from '@material-ui/core/Box';
 import {useState, useEffect} from 'react';
 import UserList from './UserList';
+import PageController from './PageController';
 
 
 
@@ -51,15 +52,24 @@ const App = () =>{
 
 
    
-    return(
+    return(        
 
+        compPageStatus ?
+            
+            <div className={classes.root}>
+                <PageController queryTicker={queryTicker}/>
+            </div>
 
+            : 
+
+            <div className={classes.root}>
+                <Home stockList={tickerList} queryFunc={queryTrigger}/>
+            </div>
+    
+    
+            
         
-        <div className={classes.root}>
-            <UserList />
-        </div>
-
-)
+    )
     
 }
 
