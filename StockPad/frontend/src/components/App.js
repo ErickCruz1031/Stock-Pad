@@ -54,6 +54,27 @@ const App = () =>{
    
     return(        
 
+     
+            
+            <div className={classes.root}>
+                <UserList/>
+            </div>
+
+ 
+    
+            
+        
+    )
+    
+}
+
+const rootDiv = document.getElementById('root');
+render(<App />, rootDiv);
+
+
+/*
+   return(        
+
         compPageStatus ?
             
             <div className={classes.root}>
@@ -71,28 +92,5 @@ const App = () =>{
         
     )
     
-}
-
-const rootDiv = document.getElementById('root');
-render(<App />, rootDiv);
-
-
-/*
-    return(
-
-        compPageStatus ?
-            
-            <div className={classes.root}>
-                <CompanyPage queryTicker={queryTicker}/>
-            </div>
-
-            : 
-            <div className={classes.root}>
-                <Home stockList={tickerList} queryFunc={queryTrigger}/>
-            </div>
-
-
-        
-    )
     
 */

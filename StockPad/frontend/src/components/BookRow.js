@@ -30,6 +30,14 @@ import AlarmIcon from '@material-ui/icons/Alarm';
     paddingTop:2,
   },
 
+    expand: {
+    transform: 'rotate(0deg)',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest,
+    }),
+  },
+
+
 */
 const useStyles = makeStyles((theme) => ({
   media: {
@@ -37,9 +45,6 @@ const useStyles = makeStyles((theme) => ({
   },
   expand: {
     transform: 'rotate(0deg)',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
   },
   expandOpen: {
     transform: 'rotate(180deg)',
@@ -50,13 +55,27 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-const BookRow = ({newsItem}) =>{
+const BookRow = ({currentTicker}) =>{
     const classes = useStyles();
     const [expanded, setExpanded] = useState(false);
 
     const handleExpandClick = () => {
       setExpanded(!expanded);
     };
+
+    useEffect(() =>{
+
+      const apiCall = async () =>{
+        //api/get-stocknote/?symbol=AAPL
+        var query = "/api/get-stocknote?symbol=" + currentTicker;
+        const res = await fetch(query);
+        const data = await res.json();
+        console.log("Here is the data ", data);
+        console.log("Query is :", query)
+      }
+
+      apiCall();
+    }, [])
   
 
     return(
@@ -82,8 +101,8 @@ const BookRow = ({newsItem}) =>{
             </CardActionArea>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
-                    <Typography paragraph>Method:</Typography>
-                    <Typography paragraph>
+                    <Typography>Method:</Typography>
+                    <Typography>
                         Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
                         minutes.
                     </Typography>
@@ -99,12 +118,13 @@ const BookRow = ({newsItem}) =>{
 export default BookRow;
 
 /*
+                    <IconButton
+                        className={clsx(classes.expand, {
+                            [classes.expandOpen]: expanded,
+                        })}
+                        onClick={handleExpandClick}>
+                        <ExpandMoreIcon />
+                    </IconButton>
 
-<IconButton
-    className={clsx(classes.expand, {
-        [classes.expandOpen]: expanded,
-    })}
-    onClick={handleExpandClick}>
-    <AlarmIcon />
-</IconButton>
+                                <Collapse in={expanded} timeout="auto" unmountOnExit>
                     */

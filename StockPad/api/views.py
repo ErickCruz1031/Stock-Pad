@@ -23,10 +23,11 @@ class getStockNote(APIView):
 
         if symbol != None:
             target = StockNote.objects.filter(ticker=symbol)
+            print(target)
             if len(target) > 0: #If the query matches something
                 data = StockNoteSerializer(target[0]).data
                 return Response(data, status=status.HTTP_200_OK)
-            return Response({'Room Not Found: Invalid Ticker'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'Ticker Not Found: Invalid Ticker'}, status=status.HTTP_404_NOT_FOUND)
         return Response({'Bad Request: Parameter Not Included'}, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -44,7 +45,8 @@ class CreateStockNoteView(APIView):
             ticker = serializer.data.get('ticker')
             notes = serializer.data.get('notes')
             userID = self.request.session.session_key
-            queryset = StockNote.objects.filter(userID=userID)
+            queryset = StockNote.objects.filter(ticker=ticker, userID=userID)
+            #queryset = StockNote.objects.filter(userID=userID)
 
             if queryset.exists():
                 Object = queryset[0]

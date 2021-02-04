@@ -37,19 +37,19 @@ const UserList = () =>{
                         <Box pt={6}>
                         <Grid container direction="column" spacing={2}>
                             <Grid item xs={12}>
-                                <BookRow />
+                                <BookRow currentTicker={"TSLA"}/>
                             </Grid>
 
                             <Grid item xs={12}>
-                                <BookRow />
+                                <BookRow currentTicker={"AAPL"}/>
                             </Grid>
 
                             <Grid item xs={12}>
-                                <BookRow />
+                                <BookRow currentTicker={"GME"}/>
                             </Grid>
 
                             <Grid item xs={12}>
-                                <BookRow />
+                                <BookRow currentTicker={"MSFT"}/>
                             </Grid>
                         </Grid>
                         </Box>

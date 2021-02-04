@@ -33,3 +33,20 @@ const Header = () =>{
 }
 
 export default Header;
+
+/*
+    return(
+        <AppBar position="static">
+            <Toolbar>
+                <Typography className={classes.typographyStyle}>
+                    Stock Pad
+                </Typography>
+                
+                <Button variant="contained" color="secondary">
+                    Notebook
+                </Button>
+            </Toolbar>
+        </AppBar>
+    )
+}
+*/
