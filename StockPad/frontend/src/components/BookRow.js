@@ -58,6 +58,10 @@ const useStyles = makeStyles((theme) => ({
 const BookRow = ({currentTicker}) =>{
     const classes = useStyles();
     const [expanded, setExpanded] = useState(false);
+    
+    const [compTicker, setTicker] = useState("");
+    const [compNotes, setNotes] = useState(""); 
+    const [compInfo, setInfo] = useState("");//For future use for the price and news for the day
 
     const handleExpandClick = () => {
       setExpanded(!expanded);
@@ -72,6 +76,8 @@ const BookRow = ({currentTicker}) =>{
         const data = await res.json();
         console.log("Here is the data ", data);
         console.log("Query is :", query)
+        setTicker(data.ticker);
+        setNotes(data.notes);
       }
 
       apiCall();
@@ -83,10 +89,10 @@ const BookRow = ({currentTicker}) =>{
             <CardActionArea>
                 <CardContent className={classes.media}>
                     <Typography gutterBottom variant="h5" component="h2">
-                        Name
+                      {compTicker}
                     </Typography>
                     <Typography variant="body2" color="textSecondary" component="p">
-                    Preview of Notes
+                      {compNotes}
                     </Typography>
                 </CardContent>
                 <CardActions>
