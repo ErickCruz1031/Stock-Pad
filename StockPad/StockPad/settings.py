@@ -19,6 +19,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
+'''
+REST_FRAMEWORK={
+    'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication', 'rest_framework.authentication.TokenAuthentication',),
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser')
+}
+
+'''
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'q+4o$0ux^w+%a0mcrt4u2oxtb$qj6ebcjn9@%kjqe+3ytxdgni'
 
@@ -39,9 +47,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'api.apps.ApiConfig',
     'rest_framework',
+    'rest_framework.authtoken',
     'frontend',
-    'users'
+    'users',
+    'knox',
 ]
+
+REST_FRAMEWORK={
+    'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication',)
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

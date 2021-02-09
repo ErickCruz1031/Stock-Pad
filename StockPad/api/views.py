@@ -1,14 +1,23 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from rest_framework import generics, status
+from rest_framework import generics, status, permissions
 from .serializers import StockNoteSerializer, createStockNote
 from .models import StockNote
 from rest_framework.views import APIView 
 from rest_framework.response import Response 
 
 class StockNoteView(generics.ListAPIView):
-    queryset = StockNote.objects.all()
+    permission_classes= [
+        permissions.IsAuthenticated,
+    ]
+
     serializer_class = StockNoteSerializer
+
+    def get_queryset(self):
+        return self.request.user.api.all()
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 
 
