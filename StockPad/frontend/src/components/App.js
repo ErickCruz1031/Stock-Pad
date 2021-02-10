@@ -15,6 +15,7 @@ import Box from '@material-ui/core/Box';
 import {useState, useEffect} from 'react';
 import UserList from './UserList';
 import PageController from './PageController';
+import LoginPage from './LoginPage';
 
 
 
@@ -57,7 +58,7 @@ const App = () =>{
      
             
             <div className={classes.root}>
-                <UserList/>
+                <LoginPage/>
             </div>
 
  

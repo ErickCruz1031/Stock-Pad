@@ -1,10 +1,11 @@
 from django.shortcuts import render
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from knox.models import AuthToken
 from .serializers import UserSerializer,RegisterSerializer,LoginSerializer
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
+from .models import Placeholder
 # Create your views here.
 
 #Register View
@@ -40,12 +41,12 @@ class Login(generics.GenericAPIView):
 
 #Get User View APIView
 #generics.RetrieveAPIView
-class RetrieveUser(APIView):
+class RetrieveUser(generics.RetrieveAPIView):
     permission_classes =[
         permissions.IsAuthenticated,
     ] #Only authenticated users can use this because you need a token
     serializer_class = UserSerializer
-    def get_obj(self):
+    def get_object(self):
         return self.request.user
 
 
