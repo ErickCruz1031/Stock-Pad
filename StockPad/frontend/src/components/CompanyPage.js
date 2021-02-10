@@ -54,10 +54,13 @@ const useStyles = makeStyles(() =>({
 }))
 
 
-const CompanyPage = ({searchTicker}) =>{
+//const CompanyPage = ({searchTicker}) =>{
+const CompanyPage = () =>{
 
     const classes = useStyles();
 
+    //Need to change this 
+    const [searchTicker, setSearch] = useState('TSLA');
     const [compName, setName] = useState("");
     const [ceoText, setCeo] = useState("");
     const [descText, setDesc] = useState("");

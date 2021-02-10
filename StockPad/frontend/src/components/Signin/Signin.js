@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useRef} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -18,7 +18,7 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
       <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+        Stock Pad
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -46,8 +46,40 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn() {
+const SignIn = (props) => {
+
+  const [username, setUsername] = useState("")
+  const [pass, setPass] = useState("");
+
+
   const classes = useStyles();
+
+  const user_Ref = useRef();//Ref for username child
+  const pass_Ref = useRef();//Ref for password child
+
+  const changeUsername = (e) =>{
+
+    setUsername(e.target.value)
+  }
+
+  const changePass = (e) =>{
+    setPass(e.target.value);
+  }
+
+  const submitCreds = (e) =>{
+    e.preventDefault();
+    console.log("Submitted the credentials");
+    //Pull the creds using the href from the two input fields 
+    //setUsername(user_Ref.current.value)
+    //setPass(pass_Ref.current.value)
+    console.log("These are the inputs ", username, ' ', pass)
+    props.logFunc(username, pass);
+    user_Ref.current.value = "";
+    pass_Ref.current.value = "";
+    props.history.push('/companypage')
+
+
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -61,6 +93,8 @@ export default function SignIn() {
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
+            ref={user_Ref}
+            onChange={changeUsername}
             variant="outlined"
             margin="normal"
             required
@@ -72,6 +106,8 @@ export default function SignIn() {
             autoFocus
           />
           <TextField
+            ref={pass_Ref}
+            onChange={changePass}
             variant="outlined"
             margin="normal"
             required
@@ -92,6 +128,7 @@ export default function SignIn() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={submitCreds}
           >
             Sign In
           </Button>
@@ -115,3 +152,4 @@ export default function SignIn() {
     </Container>
   );
 }
+export default SignIn;

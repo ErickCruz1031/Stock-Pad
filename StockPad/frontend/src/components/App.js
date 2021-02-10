@@ -16,7 +16,10 @@ import {useState, useEffect} from 'react';
 import UserList from './UserList';
 import PageController from './PageController';
 import LoginPage from './LoginPage';
-
+import Signin from './Signin/Signin'
+import {BrowserRouter as Router,
+    Switch, Route, Link, Redirect, withRouter} from 'react-router-dom';
+import SignIn from './Signin/Signin';
 
 
 const useStyles = makeStyles(() =>({
@@ -44,6 +47,7 @@ const App = () =>{
     const [compPageStatus, setCompPage] = useState(false); //At first the company page doesn't show 
     const [notebookStatus, setNotebookStatus] = useState(false);
     const [queryTicker, setQuery] = useState("");
+    const [loggedIn, setLogState] = useState(false); //Variable to tell if user is logged in
 
     const queryTrigger = input =>{
         console.log("This was the input of the query ", input);
@@ -51,15 +55,73 @@ const App = () =>{
         setQuery(input);
     }
 
+    const loginAttempt = (user, password) =>{
+        console.log("In the frontend about to login...");
+
+        const callSignIn = async () =>{
+            var res = await fetch( 'http://localhost:8000/auth/login/',{
+                method: 'POST',
+                headers : {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    "username": user,
+                    "password": password,
+                })
+            }).then(response =>
+                response.json().then(data=> {
+                    if (data.non_field_errors){
+                        console.log("WARNING")
+                        console.log("This is the data ", data);
+
+                    }
+                    else{
+                        setLogState(!loggedIn); //Alter the state
+                        console.log("The token is ", data.token);
+                        console.log("The user is ", data.user);
+                    }
+
+                }));
+
+
+
+
+            //var data = res.json();
+            //console.log("This is what it returns", data);
+            //console.log("This is the token", data.object.token);
+            //console.log("User", data.user); 
+        }
+        callSignIn();
+        
+
+    }
+/*
+fetch(url).then(response => 
+    response.json().then(data => ({
+        data: data,
+        status: response.status
+    })
+).then(res => {
+    console.log(res.status, res.data.title)
+}));
+
+
+*/
 
    
     return(        
 
      
+            <Router>
             
-            <div className={classes.root}>
-                <LoginPage/>
-            </div>
+                <Route exact path='/' >
+                    {loggedIn ? <Home stockList={tickerList} queryFunc={queryTrigger} /> : <SignIn logFunc={loginAttempt}/>}
+                </Route>
+                <Route path='/companypage' component={CompanyPage} />
+            
+            </Router>
+            
 
  
     
@@ -68,6 +130,8 @@ const App = () =>{
     )
     
 }
+
+export default withRouter(App);
 
 const rootDiv = document.getElementById('root');
 render(<App />, rootDiv);
