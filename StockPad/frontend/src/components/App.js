@@ -34,8 +34,9 @@ const useStyles = makeStyles(() =>({
 }))
 
 
-const App = () =>{
+//When you login you have to call the backend and check if it is logged in. If so, push the notebook view to the stack
 
+const App = () =>{
     const classes = useStyles();
 
     const [tickerList, updateTickerList] = useState([
@@ -55,78 +56,23 @@ const App = () =>{
         setQuery(input);
     }
 
-    const loginAttempt = (user, password) =>{
-        console.log("In the frontend about to login...");
-
-        const callSignIn = async () =>{
-            var res = await fetch( 'http://localhost:8000/auth/login/',{
-                method: 'POST',
-                headers : {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    "username": user,
-                    "password": password,
-                })
-            }).then(response =>
-                response.json().then(data=> {
-                    if (data.non_field_errors){
-                        console.log("WARNING")
-                        console.log("This is the data ", data);
-
-                    }
-                    else{
-                        setLogState(!loggedIn); //Alter the state
-                        console.log("The token is ", data.token);
-                        console.log("The user is ", data.user);
-                    }
-
-                }));
-
-
-
-
-            //var data = res.json();
-            //console.log("This is what it returns", data);
-            //console.log("This is the token", data.object.token);
-            //console.log("User", data.user); 
-        }
-        callSignIn();
-        
-
+    const updateLogState = (current, token) =>{
+        console.log("This is the value ", current);
+        console.log("This is the new token ", token);
     }
-/*
-fetch(url).then(response => 
-    response.json().then(data => ({
-        data: data,
-        status: response.status
-    })
-).then(res => {
-    console.log(res.status, res.data.title)
-}));
-
-
-*/
 
    
     return(        
-
-     
             <Router>
-            
-                <Route exact path='/' >
-                    {loggedIn ? <Home stockList={tickerList} queryFunc={queryTrigger} /> : <SignIn logFunc={loginAttempt}/>}
-                </Route>
-                <Route path='/companypage' component={CompanyPage} />
+                <Switch>
+                    <Route exact path='/' component={() => <SignIn setLogState={updateLogState}/>} />
+                    <Route path='/home' component={Home} />
+                    <Route path='/companypage' component={CompanyPage} />
+                    <Route path='/userlist' component={UserList} />
+                    <Route path='/' component={() => <SignIn setLogState={updateLogState}/>} />
+                </Switch>
             
             </Router>
-            
-
- 
-    
-            
-        
     )
     
 }
@@ -135,27 +81,3 @@ export default withRouter(App);
 
 const rootDiv = document.getElementById('root');
 render(<App />, rootDiv);
-
-
-/*
-   return(        
-
-        compPageStatus ?
-            
-            <div className={classes.root}>
-                <PageController queryTicker={queryTicker}/>
-            </div>
-
-            : 
-
-            <div className={classes.root}>
-                <Home stockList={tickerList} queryFunc={queryTrigger}/>
-            </div>
-    
-    
-            
-        
-    )
-    
-    
-*/

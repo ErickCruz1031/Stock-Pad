@@ -12,6 +12,7 @@ import TextField from '@material-ui/core/TextField';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import {useState} from 'react';
+import {useHistory} from 'react-router-dom';
 
 const useStyles = makeStyles(() =>({
     root: {
@@ -25,9 +26,11 @@ const useStyles = makeStyles(() =>({
 }))
 
 
-const Home = ({stockList, queryFunc}) =>{
+//const Home = ({stockList, queryFunc}) =>{
+const Home = () =>{
 
     const classes = useStyles();
+    const history = useHistory();
 
     const [textInput, setText] = useState("");
 
@@ -37,10 +40,59 @@ const Home = ({stockList, queryFunc}) =>{
 
     const enterTrigger = () =>{
         console.log("This is the Enter event trigger");
-        queryFunc(textInput);
+        //queryFunc(textInput);
+        //Change this after test
+    }
+
+    const notebookLink = () =>{
+        console.log("Opted to go for the notebook, pushing...");
+        history.push('/userlist');
+
+
     }
    
     return(
+        <div className={classes.root}>
+            <Grid container direction="column" spacing={1}>
+                <Grid container direction="row">
+                    <Grid item xs={12}>
+                        <Header noteCall={notebookLink}/>
+                    </Grid>
+                </Grid>
+
+                <Grid container direction="row">
+                    <Grid item xs={2} />
+                    <Grid item xs={8}>
+                        <Grid container direction="row" spacing={10} justify="center" alignItems="center">
+                            <Grid item xs={4}>
+                                <Box pt={10}>
+                                    <TextField id="standard-basic" placeholder="Enter Ticker Here" onChange={inputChange}/>
+                                </Box>
+                            </Grid>
+
+                            <Grid item xs={2}>
+                                <Box pt={10}>
+                                    <Button variant="contained" color="secondary" onClick={enterTrigger}>
+                                        Search
+                                    </Button>
+                                </Box>
+                            </Grid>
+                            <Grid item xs={6} />
+
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={2} />
+                </Grid>
+            </Grid>
+        </div>
+    )
+    
+}
+
+export default Home;
+
+/*
+ return(
         <div className={classes.root}>
             <Grid container direction="column" spacing={1}>
                 <Grid container direction="row">
@@ -80,7 +132,5 @@ const Home = ({stockList, queryFunc}) =>{
             </Grid>
         </div>
     )
-    
-}
 
-export default Home;
+*/

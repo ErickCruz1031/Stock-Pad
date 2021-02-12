@@ -13,7 +13,7 @@ const useStyles = makeStyles(() =>({
 }))
 
 
-const Header = () =>{
+const Header = ({noteCall}) =>{
 
     const classes = useStyles();
 
@@ -24,7 +24,7 @@ const Header = () =>{
                     Stock Pad
                 </Typography>
                 
-                <Button variant="contained" color="secondary">
+                <Button variant="contained" color="secondary" onClick={noteCall}>
                     Notebook
                 </Button>
             </Toolbar>
@@ -33,20 +33,3 @@ const Header = () =>{
 }
 
 export default Header;
-
-/*
-    return(
-        <AppBar position="static">
-            <Toolbar>
-                <Typography className={classes.typographyStyle}>
-                    Stock Pad
-                </Typography>
-                
-                <Button variant="contained" color="secondary">
-                    Notebook
-                </Button>
-            </Toolbar>
-        </AppBar>
-    )
-}
-*/

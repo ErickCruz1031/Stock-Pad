@@ -12,6 +12,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import {useHistory} from 'react-router-dom';
 
 function Copyright() {
   return (
@@ -46,38 +47,75 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SignIn = (props) => {
+//const SignIn = ({logFunc}) => {
+  const SignIn = ({setLogState}) => {
 
-  const [username, setUsername] = useState("")
-  const [pass, setPass] = useState("");
+    const [username, setUsername] = useState("")
+    const [pass, setPass] = useState("");
 
 
-  const classes = useStyles();
+    const classes = useStyles();
+    const history = useHistory(); 
 
-  const user_Ref = useRef();//Ref for username child
-  const pass_Ref = useRef();//Ref for password child
+    const user_Ref = useRef();//Ref for username child
+    const pass_Ref = useRef();//Ref for password child
 
-  const changeUsername = (e) =>{
+    const changeUsername = (e) =>{
 
-    setUsername(e.target.value)
-  }
+      setUsername(e.target.value)
+    }
 
-  const changePass = (e) =>{
-    setPass(e.target.value);
-  }
+    const changePass = (e) =>{
+      setPass(e.target.value);
+    }
 
-  const submitCreds = (e) =>{
-    e.preventDefault();
-    console.log("Submitted the credentials");
-    //Pull the creds using the href from the two input fields 
-    //setUsername(user_Ref.current.value)
-    //setPass(pass_Ref.current.value)
-    console.log("These are the inputs ", username, ' ', pass)
-    props.logFunc(username, pass);
-    user_Ref.current.value = "";
-    pass_Ref.current.value = "";
-    props.history.push('/companypage')
+    const submitCreds = (e) =>{
+      e.preventDefault();
+      console.log("Submitted the credentials");
+      console.log("These are the inputs ", username, ' ', pass)
 
+      loginAttempt();
+      user_Ref.current.value = "";
+      pass_Ref.current.value = "";
+      console.log("Finished the calll")
+            
+
+    }
+
+
+    const loginAttempt = () =>{
+      console.log("In the frontend about to login...");
+
+      const callSignIn = async () =>{
+          var res = await fetch( 'http://localhost:8000/auth/login/',{
+              method: 'POST',
+              headers : {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                  "username": username,
+                  "password": pass,
+              })
+          }).then(response =>
+          response.json().then(data=> {
+              if (data.non_field_errors){
+                  console.log("WARNING")
+                  console.log("This is the data ", data);
+
+              }
+              else{
+                  setLogState(true, data.token); //Alter the state
+                  console.log("The token is ", data.token);
+                  console.log("The user is ", data.user);
+                  history.push('/home')
+              }
+
+          }));
+
+      }
+      callSignIn();
+      
 
   }
 
