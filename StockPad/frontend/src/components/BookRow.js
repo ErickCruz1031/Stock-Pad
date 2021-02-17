@@ -66,6 +66,7 @@ const BookRow = ({currentTicker}) =>{
     const handleExpandClick = () => {
       setExpanded(!expanded);
     };
+    /*
 
     useEffect(() =>{
 
@@ -82,6 +83,7 @@ const BookRow = ({currentTicker}) =>{
 
       apiCall();
     }, [])
+    */
   
 
     return(

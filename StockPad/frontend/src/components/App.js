@@ -47,6 +47,7 @@ const App = () =>{
 
     const [compPageStatus, setCompPage] = useState(false); //At first the company page doesn't show 
     const [notebookStatus, setNotebookStatus] = useState(false);
+    const [sessionToken, setToken] = useState("");
     const [queryTicker, setQuery] = useState("");
     const [loggedIn, setLogState] = useState(false); //Variable to tell if user is logged in
 
@@ -59,6 +60,7 @@ const App = () =>{
     const updateLogState = (current, token) =>{
         console.log("This is the value ", current);
         console.log("This is the new token ", token);
+        setToken(token); //Set the current session token to pass on to other functions
     }
 
    
@@ -66,9 +68,9 @@ const App = () =>{
             <Router>
                 <Switch>
                     <Route exact path='/' component={() => <SignIn setLogState={updateLogState}/>} />
-                    <Route path='/home' component={Home} />
+                    <Route path='/home' component = {() => <Home stockList={tickerList} />} />
                     <Route path='/companypage' component={CompanyPage} />
-                    <Route path='/userlist' component={UserList} />
+                    <Route path='/userlist' component={() => <UserList userToken={sessionToken} />} />
                     <Route path='/' component={() => <SignIn setLogState={updateLogState}/>} />
                 </Switch>
             

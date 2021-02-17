@@ -18,11 +18,47 @@ const useStyles = makeStyles(() =>({
 
 }))
 
+/*
 
+                headers : {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Token ' + JSON.stringify(userToken),
+                }
 
-const UserList = () =>{
+*/
+
+const UserList = ({userToken}) =>{
 
     const classes = useStyles();
+
+
+    useEffect (() =>{
+        console.log("In the frontend about to get the stocknotes...");
+        console.log("This is the token we are going ton use ", userToken)
+  
+        const callFetch = async () =>{
+            var tokenString = 'Token ' + userToken
+            var res = await fetch( 'http://localhost:8000/api/get-stocknote/',{
+                method: 'GET',
+                headers :{
+                    'Authorization' : tokenString,
+                    'Content-Type': 'application/json',
+                }
+                }).then(response =>
+                response.json().then(data=> {
+
+                    console.log("Made it to the call here");
+                    console.log("This is the data from get-stocknote")
+                    console.log(data)
+  
+            }));
+  
+        }
+        callFetch();
+        
+  
+    }, []) //Include the empty dependency array for the useEffect
+    //This call will get called when this component gets mounted 
 
     return(
         <div className={classes.root}>

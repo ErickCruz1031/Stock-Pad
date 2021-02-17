@@ -27,7 +27,7 @@ const useStyles = makeStyles(() =>({
 
 
 //const Home = ({stockList, queryFunc}) =>{
-const Home = () =>{
+const Home = ({stockList}) =>{
 
     const classes = useStyles();
     const history = useHistory();
@@ -78,6 +78,12 @@ const Home = () =>{
                                 </Box>
                             </Grid>
                             <Grid item xs={6} />
+
+                            <Grid item xs={12}>
+                                <StockRow newsItem={stockList[0]} />
+                                <StockRow newsItem={stockList[1]} />
+                                <StockRow newsItem={stockList[2]}/>
+                            </Grid>
 
                         </Grid>
                     </Grid>
