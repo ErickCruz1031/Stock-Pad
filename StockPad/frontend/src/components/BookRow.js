@@ -55,17 +55,21 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-const BookRow = ({currentTicker}) =>{
+const BookRow = ({stockObj}) =>{
     const classes = useStyles();
     const [expanded, setExpanded] = useState(false);
     
-    const [compTicker, setTicker] = useState("");
-    const [compNotes, setNotes] = useState(""); 
+    const [compTicker, setTicker] = useState(stockObj.ticker);
+    const [compNotes, setNotes] = useState(stockObj.notes); 
     const [compInfo, setInfo] = useState("");//For future use for the price and news for the day
 
     const handleExpandClick = () => {
       setExpanded(!expanded);
     };
+
+    useEffect(() =>{
+      console.log("This is the item for this object ", stockObj);
+    }, [] )
     /*
 
     useEffect(() =>{

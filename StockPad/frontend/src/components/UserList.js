@@ -30,6 +30,7 @@ const useStyles = makeStyles(() =>({
 const UserList = ({userToken}) =>{
 
     const classes = useStyles();
+    const [userStocks, setStocks] = useState([{ticker: "TEST", notes: "Testing notes"}]); //Set to empty array
 
 
     useEffect (() =>{
@@ -48,13 +49,25 @@ const UserList = ({userToken}) =>{
                 response.json().then(data=> {
 
                     console.log("Made it to the call here");
-                    console.log("This is the data from get-stocknote")
+                    console.log("This is the data from get-stocknote", data.length)
                     console.log(data)
+                    /*
+                    for(var i=0; i < data.length; i++){
+                        console.log(i, " and it is ", data[i])
+                        setStocks([...userStocks, data[i]])
+                    }
+                    */
+                   console.log(typeof(userStocks))
+                    setStocks([...userStocks, data]) //Set the stocks for this user
+                    console.log(typeof(data))
+                    console.log("This is the other object ", userStocks)
+                    
   
             }));
   
         }
         callFetch();
+        console.log("THis is what was returned");
         
   
     }, []) //Include the empty dependency array for the useEffect
@@ -69,6 +82,38 @@ const UserList = ({userToken}) =>{
                 <Grid container direction="row" spacing={1}>
                     <Grid item xs={2} />
 
+                    <Grid item xs={8}>
+                        <Box pt={6}>
+                        <Grid container direction="column" spacing={2}>
+                            {userStocks.map((stock) =>{ 
+                                <Grid item xs={12}>
+                                    <BookRow stockObj={stock}/>
+                                </Grid>
+                            })}
+
+
+                        </Grid>
+                        </Box>
+                    </Grid>
+
+                    <Grid item xs={2} />
+
+                </Grid>
+            </Grid>
+
+        </div>
+    )
+}
+
+export default UserList;
+
+/*
+    {stocks.map((stock) =>( 
+                <Stock key={stock.id} ticker={stock.ticker} index={stock.id} delCall={deleteFunc}/>
+            ))}
+
+
+    
                     <Grid item xs={8}>
                         <Box pt={6}>
                         <Grid container direction="column" spacing={2}>
@@ -91,13 +136,11 @@ const UserList = ({userToken}) =>{
                         </Box>
                     </Grid>
 
-                    <Grid item xs={2} />
+                    
+                        {userStocks.map((stock) =>{ 
+                            <Grid item xs={12}>
+                                <BookRow stockObj={stock}/>
+                            </Grid>
+                        })}
 
-                </Grid>
-            </Grid>
-
-        </div>
-    )
-}
-
-export default UserList;
+    */
