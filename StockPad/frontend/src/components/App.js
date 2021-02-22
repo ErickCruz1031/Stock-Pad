@@ -49,6 +49,7 @@ const App = () =>{
     const [notebookStatus, setNotebookStatus] = useState(false);
     const [sessionToken, setToken] = useState("");
     const [queryTicker, setQuery] = useState("");
+    const [tempUserList, setUserList] = useState([]);
     const [loggedIn, setLogState] = useState(false); //Variable to tell if user is logged in
 
     const queryTrigger = input =>{
@@ -57,11 +58,47 @@ const App = () =>{
         setQuery(input);
     }
 
+ /*
+    const getUserList = () =>{
+
+        const apiCall = async() =>{    
+            var tokenString = 'Token ' + sessionToken
+            var res = await fetch( 'http://localhost:8000/api/get-stocknote/',{
+                    method: 'GET',
+                    headers :{
+                        'Authorization' : tokenString,
+                        'Content-Type': 'application/json',
+                    }
+                    }).then(response =>
+                    response.json().then(data=> {
+
+                    console.log("Made it to the call here");
+                    console.log("This is the data from get-stocknote", data.length)
+                    console.log(data)
+                    
+                    for(var i=0; i < data.length; i++){
+                        console.log(i, " and it is ", data[i])
+                        setUserList([...userStocks, data[i]])
+                    }
+                    
+                    console.log(typeof(tempUserList))
+                    setUserList([...tempUserList, data]) //Set the stocks for this user
+                    console.log(typeof(data))
+                    console.log("This is the other object ", tempUserList)
+                        
+    
+                }));
+        }
+        console.log("We are here in the for the API")
+        apiCall();
+    }
+*/
     const updateLogState = (current, token) =>{
         console.log("This is the value ", current);
         console.log("This is the new token ", token);
-        setToken(token); //Set the current session token to pass on to other functions
+        setToken(token);//Set the current session token to pass on to other functions
     }
+
 
    
     return(        

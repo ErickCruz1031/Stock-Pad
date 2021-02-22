@@ -30,8 +30,7 @@ const useStyles = makeStyles(() =>({
 const UserList = ({userToken}) =>{
 
     const classes = useStyles();
-    const [userStocks, setStocks] = useState([{ticker: "TEST", notes: "Testing notes"}]); //Set to empty array
-
+    const [userStocks, setStocks] = useState([{ticker: "", notes: ""}]); //Set to empty array
 
     useEffect (() =>{
         console.log("In the frontend about to get the stocknotes...");
@@ -51,16 +50,22 @@ const UserList = ({userToken}) =>{
                     console.log("Made it to the call here");
                     console.log("This is the data from get-stocknote", data.length)
                     console.log(data)
-                    /*
+                
                     for(var i=0; i < data.length; i++){
-                        console.log(i, " and it is ", data[i])
-                        setStocks([...userStocks, data[i]])
-                    }
-                    */
-                   console.log(typeof(userStocks))
-                    setStocks([...userStocks, data]) //Set the stocks for this user
+                        var obj = {
+                            ticker : data[i].ticker, 
+                            notes : data[i].notes
+                        }
+                        console.log(i, " and it is ", obj)
+                        setStocks([...userStocks, obj]) 
+                        console.log("This is the other object ", userStocks)
+                    }//prevMovies => ([...prevMovies, ...result])
+                    
+                   console.log(userStocks, " is the obj afterwards")
+                   console.log(typeof([]))
+                    //setStocks([...userStocks, data]) //Set the stocks for this user
                     console.log(typeof(data))
-                    console.log("This is the other object ", userStocks)
+                    
                     
   
             }));
@@ -72,6 +77,7 @@ const UserList = ({userToken}) =>{
   
     }, []) //Include the empty dependency array for the useEffect
     //This call will get called when this component gets mounted 
+
 
     return(
         <div className={classes.root}>
@@ -108,39 +114,46 @@ const UserList = ({userToken}) =>{
 export default UserList;
 
 /*
-    {stocks.map((stock) =>( 
-                <Stock key={stock.id} ticker={stock.ticker} index={stock.id} delCall={deleteFunc}/>
-            ))}
 
 
-    
-                    <Grid item xs={8}>
-                        <Box pt={6}>
-                        <Grid container direction="column" spacing={2}>
-                            <Grid item xs={12}>
-                                <BookRow currentTicker={"TSLA"}/>
-                            </Grid>
+    useEffect (() =>{
+        console.log("In the frontend about to get the stocknotes...");
+        console.log("This is the token we are going ton use ", userToken)
+  
+        const callFetch = async () =>{
+            var tokenString = 'Token ' + userToken
+            var res = await fetch( 'http://localhost:8000/api/get-stocknote/',{
+                method: 'GET',
+                headers :{
+                    'Authorization' : tokenString,
+                    'Content-Type': 'application/json',
+                }
+                }).then(response =>
+                response.json().then(data=> {
 
-                            <Grid item xs={12}>
-                                <BookRow currentTicker={"AAPL"}/>
-                            </Grid>
-
-                            <Grid item xs={12}>
-                                <BookRow currentTicker={"GME"}/>
-                            </Grid>
-
-                            <Grid item xs={12}>
-                                <BookRow currentTicker={"MSFT"}/>
-                            </Grid>
-                        </Grid>
-                        </Box>
-                    </Grid>
-
+                    console.log("Made it to the call here");
+                    console.log("This is the data from get-stocknote", data.length)
+                    console.log(data)
+                
+                    for(var i=0; i < data.length; i++){
+                        console.log(i, " and it is ", data[i])
+                        setStocks([...userStocks, data[i]])
+                    }
                     
-                        {userStocks.map((stock) =>{ 
-                            <Grid item xs={12}>
-                                <BookRow stockObj={stock}/>
-                            </Grid>
-                        })}
+                   console.log(typeof(userStocks))
+                    setStocks([...userStocks, data]) //Set the stocks for this user
+                    console.log(typeof(data))
+                    console.log("This is the other object ", userStocks)
+                    
+  
+            }));
+  
+        }
+        callFetch();
+        console.log("THis is what was returned");
+        
+  
+    }, []) //Include the empty dependency array for the useEffect
+    //This call will get called when this component gets mounted 
 
     */
