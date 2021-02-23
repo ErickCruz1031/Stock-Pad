@@ -14,12 +14,14 @@ import TextField from '@material-ui/core/TextField';
 import Box from '@material-ui/core/Box';
 import {useState, useEffect} from 'react';
 import UserList from './UserList';
+import UserListV2 from './UserListV2';
 import PageController from './PageController';
 import LoginPage from './LoginPage';
 import Signin from './Signin/Signin'
 import {BrowserRouter as Router,
     Switch, Route, Link, Redirect, withRouter} from 'react-router-dom';
 import SignIn from './Signin/Signin';
+import {useHistory} from 'react-router-dom';
 
 
 const useStyles = makeStyles(() =>({
@@ -38,6 +40,7 @@ const useStyles = makeStyles(() =>({
 
 const App = () =>{
     const classes = useStyles();
+    const history = useHistory(); 
 
     const [tickerList, updateTickerList] = useState([
         {ticker : "TSLA", headline: "Tesla news", description: "New Desc."},
@@ -52,51 +55,50 @@ const App = () =>{
     const [tempUserList, setUserList] = useState([]);
     const [loggedIn, setLogState] = useState(false); //Variable to tell if user is logged in
 
+    const [userStocks, setStocks] = useState([]);
+
     const queryTrigger = input =>{
         console.log("This was the input of the query ", input);
         setCompPage(!compPageStatus);
         setQuery(input);
+
+        
     }
 
- /*
-    const getUserList = () =>{
-
-        const apiCall = async() =>{    
-            var tokenString = 'Token ' + sessionToken
-            var res = await fetch( 'http://localhost:8000/api/get-stocknote/',{
-                    method: 'GET',
-                    headers :{
-                        'Authorization' : tokenString,
-                        'Content-Type': 'application/json',
-                    }
-                    }).then(response =>
-                    response.json().then(data=> {
-
-                    console.log("Made it to the call here");
-                    console.log("This is the data from get-stocknote", data.length)
-                    console.log(data)
-                    
-                    for(var i=0; i < data.length; i++){
-                        console.log(i, " and it is ", data[i])
-                        setUserList([...userStocks, data[i]])
-                    }
-                    
-                    console.log(typeof(tempUserList))
-                    setUserList([...tempUserList, data]) //Set the stocks for this user
-                    console.log(typeof(data))
-                    console.log("This is the other object ", tempUserList)
-                        
     
-                }));
-        }
-        console.log("We are here in the for the API")
-        apiCall();
-    }
-*/
     const updateLogState = (current, token) =>{
         console.log("This is the value ", current);
         console.log("This is the new token ", token);
         setToken(token);//Set the current session token to pass on to other functions
+        /*
+        const callFetch = async () =>{
+            console.log("In the string call to CALLFETCH")
+            var tokenString = 'Token ' + token
+            var res = await fetch( 'http://localhost:8000/api/get-stocknote/',{
+                method: 'GET',
+                headers :{
+                    'Authorization' : tokenString,
+                    'Content-Type': 'application/json',
+                }
+                }).then(response =>
+                response.json().then(data=> {
+
+                    console.log("Made it to the call here");
+                    console.log("This is the data from get-stocknote", data.length)
+                    console.log(data)
+                    console.log(userStocks, " is the obj afterwards")
+                    setStocks(data) //Set the stocks for this user
+                    //history.push('/home')
+                    
+                    
+  
+            }));
+  
+        }
+        if (userStocks.length == 0){
+            callFetch();
+        }//Only call on the first one
+        */
     }
 
 
@@ -107,7 +109,7 @@ const App = () =>{
                     <Route exact path='/' component={() => <SignIn setLogState={updateLogState}/>} />
                     <Route path='/home' component = {() => <Home stockList={tickerList} />} />
                     <Route path='/companypage' component={CompanyPage} />
-                    <Route path='/userlist' component={() => <UserList userToken={sessionToken} />} />
+                    <Route path='/userlist' component={() => <UserList userToken={sessionToken} array={userStocks}/>} />
                     <Route path='/' component={() => <SignIn setLogState={updateLogState}/>} />
                 </Switch>
             
