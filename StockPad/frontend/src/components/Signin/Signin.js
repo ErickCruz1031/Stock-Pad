@@ -47,7 +47,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-//const SignIn = ({logFunc}) => {
   const SignIn = ({setLogState}) => {
 
     const [username, setUsername] = useState("")

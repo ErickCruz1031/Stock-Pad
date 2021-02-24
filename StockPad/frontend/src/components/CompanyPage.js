@@ -19,6 +19,7 @@ import {useEffect, useState} from 'react'
 import regeneratorRuntime from "regenerator-runtime";
 //import FittedImage from 'react-fitted-image';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import {useHistory} from 'react-router-dom';
 
 
 const useStyles = makeStyles(() =>({
@@ -55,25 +56,26 @@ const useStyles = makeStyles(() =>({
 
 
 //const CompanyPage = ({searchTicker}) =>{
-const CompanyPage = () =>{
+const CompanyPage = ({searchTicker}) =>{
 
     const classes = useStyles();
+    const history = useHistory();
 
     //Need to change this 
-    const [searchTicker, setSearch] = useState('TSLA');
+    const [currentTicker, setSearch] = useState(searchTicker);
     const [compName, setName] = useState("");
     const [ceoText, setCeo] = useState("");
     const [descText, setDesc] = useState("");
     const [capText, setCap] = useState(0);
     const [similar, setSimilar] = useState([]); //Empty array at first 
     const [imageURL, setURL] = useState("");
+    const [apiCount, setAPI] = useState(0) // Initially we are going to set the API
 
 
     useEffect(() =>{
 
         const apiCall = async() =>{
-            const query = "https://api.polygon.io/v1/meta/symbols/" + searchTicker + "/company?apiKey=EwdgXn2W7ptj4vkx9B40T3HiVEvV4v3e";
-            //https://api.polygon.io/v1/meta/symbols/TSLA/company?apiKey=EwdgXn2W7ptj4vkx9B40T3HiVEvV4v3e
+            const query = "https://api.polygon.io/v1/meta/symbols/" + currentTicker + "/company?apiKey=EwdgXn2W7ptj4vkx9B40T3HiVEvV4v3e";
             console.log("this is the query: ", query);
             const res = await fetch(query);
             const data = await res.json();
@@ -85,12 +87,24 @@ const CompanyPage = () =>{
             setSimilar(data.similar); //Set equal to array of similar tickers
             setURL(data.logo);//Set image URL for logo pictire
 
-        }
 
+        }
+        console.log("ABOUT TO CALL THE API")
         apiCall();
 
 
-    }, []) //Make sure it only executed when the component is created
+    }, [apiCount]) //Make sure it only executed when the component is created
+
+    const changeInput = (e) =>{
+        setSearch(e.target.value);
+
+    }
+
+    const buttonTrigger = e =>{
+        e.preventDefault();
+        setAPI(apiCount + 1) //Just change it to trigger the API to call and change the state
+        
+    }
 
 
 
@@ -109,13 +123,22 @@ const CompanyPage = () =>{
 
                     <Grid item xs={8}>
                         <Grid container direction-="column" alignItems="center" justify="center">
-                            <Grid item xs={12}>
-                                <Box pt={10} pb={8}>
-                                    <TextField id="standard-basic" placeholder="Enter New Here"/>
-                                </Box>
-                            </Grid>
+                                <Grid item xs={4}>
+                                    <Box pt={10}>
+                                        <TextField id="standard-basic" placeholder="Enter Ticker Here" onChange={changeInput}/>
+                                    </Box>
+                                </Grid>
 
-                            <Grid item xs={12}>
+                                <Grid item xs={2}>
+                                    <Box pt={10}>
+                                        <Button variant="contained" color="secondary" onClick={buttonTrigger}>
+                                            Search
+                                        </Button>
+                                    </Box>
+                                </Grid>
+                                <Grid item xs={6} />
+
+                                <Grid item xs={12}>
                                 <Card className={classes.rootCard}>
                                     <CardActionArea>
                                                 <> {imageURL ? 
@@ -194,7 +217,7 @@ const CompanyPage = () =>{
                                     </CardActions>
                                 </Card>
 
-                            </Grid>
+                                </Grid>
                         </Grid>
                     </Grid>
                 

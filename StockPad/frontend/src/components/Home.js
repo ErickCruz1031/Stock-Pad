@@ -27,7 +27,7 @@ const useStyles = makeStyles(() =>({
 
 
 //const Home = ({stockList, queryFunc}) =>{
-const Home = ({stockList}) =>{
+const Home = ({stockList, queryFunc}) =>{
 
     const classes = useStyles();
     const history = useHistory();
@@ -38,14 +38,17 @@ const Home = ({stockList}) =>{
         setText(e.target.value);
     }
 
-    const enterTrigger = () =>{
-        console.log("This is the Enter event trigger");
-        //queryFunc(textInput);
+    const enterTrigger = (e) =>{
+        e.preventDefault();
+        console.log("This is the Enter event trigger "); 
+        queryFunc(textInput);
+        history.push('/companypage');
+        
         //Change this after test
     }
 
     const notebookLink = () =>{
-        console.log("Opted to go for the notebook, pushing...");
+        console.log("Opted to go for the notebook, pushing...", history);
         history.push('/userlist');
 
 

@@ -59,6 +59,7 @@ const App = () =>{
 
     const queryTrigger = input =>{
         console.log("This was the input of the query ", input);
+        console.log("We are in the query trigger")
         setCompPage(!compPageStatus);
         setQuery(input);
 
@@ -70,35 +71,6 @@ const App = () =>{
         console.log("This is the value ", current);
         console.log("This is the new token ", token);
         setToken(token);//Set the current session token to pass on to other functions
-        /*
-        const callFetch = async () =>{
-            console.log("In the string call to CALLFETCH")
-            var tokenString = 'Token ' + token
-            var res = await fetch( 'http://localhost:8000/api/get-stocknote/',{
-                method: 'GET',
-                headers :{
-                    'Authorization' : tokenString,
-                    'Content-Type': 'application/json',
-                }
-                }).then(response =>
-                response.json().then(data=> {
-
-                    console.log("Made it to the call here");
-                    console.log("This is the data from get-stocknote", data.length)
-                    console.log(data)
-                    console.log(userStocks, " is the obj afterwards")
-                    setStocks(data) //Set the stocks for this user
-                    //history.push('/home')
-                    
-                    
-  
-            }));
-  
-        }
-        if (userStocks.length == 0){
-            callFetch();
-        }//Only call on the first one
-        */
     }
 
 
@@ -107,8 +79,8 @@ const App = () =>{
             <Router>
                 <Switch>
                     <Route exact path='/' component={() => <SignIn setLogState={updateLogState}/>} />
-                    <Route path='/home' component = {() => <Home stockList={tickerList} />} />
-                    <Route path='/companypage' component={CompanyPage} />
+                    <Route path='/home' component = {() => <Home stockList={tickerList} queryFunc={queryTrigger}/>} />
+                    <Route path='/companypage' component={() => <CompanyPage searchTicker={queryTicker} />} />
                     <Route path='/userlist' component={() => <UserList userToken={sessionToken} array={userStocks}/>} />
                     <Route path='/' component={() => <SignIn setLogState={updateLogState}/>} />
                 </Switch>
