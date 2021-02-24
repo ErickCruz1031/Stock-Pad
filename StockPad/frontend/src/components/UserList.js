@@ -69,15 +69,48 @@ const UserList = ({userToken, array}) =>{
 
     return(
         <div className={classes.root}>
+            <Grid container direction="column" spacing={1}>
+                <Grid item>
+                    <Header />
+                </Grid>
+                <Grid container direction="row" spacing={1}>
+                    <Grid item xs={2} />
 
-            <List objectArray={userStocks} />
+                    <Grid item xs={8}>
+                        <Box pt={6}>
+                        <Grid container direction="column" spacing={2}>
+                            {userStocks.map((stock) =>( 
+                                <Grid item xs={12} key={stock.ticker}>
+                                    <BookRow stockObj={stock}/>
+                                </Grid>
+                            ))}
 
-        </div>
+
+                        </Grid>
+                        </Box>
+                    </Grid>
+
+                    <Grid item xs={2} />
+
+                </Grid>
+            </Grid>
+
+         </div>
+
     )
 }
 
 export default UserList;
 
+
+/*
+        <div className={classes.root}>
+
+            <List objectArray={userStocks} />
+
+        </div>
+
+*/
 
     
 
