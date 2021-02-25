@@ -46,7 +46,7 @@ class getStockNote(APIView):
 class CreateStockNoteView(APIView):
     permission_classes= [
         permissions.IsAuthenticated,
-    ]
+    ] #Make this view only available to those users who are authenticated
     serializer_class = StockNoteSerializer
 
     def post(self, request, format=None):
@@ -54,26 +54,22 @@ class CreateStockNoteView(APIView):
             self.request.session.create()
 
         serializer = self.serializer_class(data=request.data)
-        print("THIS IS IT ", serializer)
         #Serialize the data passed into the request
         if serializer.is_valid():
             ticker = serializer.data.get('ticker')
             notes = serializer.data.get('notes')
             #Extract the notes and ticker from the serialized data
-            print("WE MADE IT INTO THE VALID STATEMENT")
             queryset = StockNote.objects.filter(ticker=ticker, owner=self.request.user)
             #Check if the user already has an entry with this ticker
             if queryset.exists():
                 Object = queryset[0]
-                #Object.ticker = ticker
                 #The ticker should stay the same so the only thing updating should be the notes 
-                print("We are in HEREEEEEEEEEEEEEE")
                 Object.notes = notes
                 Object.save(update_fields=['notes'])
-                #If the user has an entry with this ticker only update the notes and ticker
+                #If the user has an entry with this ticker only update the notes 
                 return Response(StockNoteSerializer(Object).data, status=status.HTTP_200_OK)
             else:
-                #Otherwise youre going to enter a new object into DB
+                #Otherwise youre going to enter a new object into DB with all the parameters from the request
                 Object = StockNote(ticker=ticker, notes=notes, owner=self.request.user)
                 Object.save()
                 return Response(StockNoteSerializer(Object).data, status=status.HTTP_200_OK)

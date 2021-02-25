@@ -21,24 +21,8 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import AlarmIcon from '@material-ui/icons/Alarm';
+import TextField from '@material-ui/core/TextField';
 
-
-/*
-
-  root: {
-    maxWidth: 345,
-    paddingTop:2,
-  },
-
-    expand: {
-    transform: 'rotate(0deg)',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
-  },
-
-
-*/
 const useStyles = makeStyles((theme) => ({
   media: {
     height: 60,
@@ -116,11 +100,23 @@ const BookRow = ({stockObj}) =>{
                     <Typography>Method:</Typography>
                     <Typography>
                         Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
-                        minutes.
+                        minutes. Set aside off of the heat to let rest for 10 minutes, and then serve. HIIIIIIIIIII
                     </Typography>
-                    <Typography>
-                        Set aside off of the heat to let rest for 10 minutes, and then serve.
-                    </Typography>
+                    <TextField
+                      label="Multiline"
+                      multiline
+                      rows={4}
+                      defaultValue="Default Value"
+                      variant="outlined"
+                      id="standard-full-width"
+            
+                      placeholder="Placeholder"
+                      fullWidth
+                      margin="normal"
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                    />
                 </CardContent>
             </Collapse>
         </Card>
@@ -129,14 +125,3 @@ const BookRow = ({stockObj}) =>{
 
 export default BookRow;
 
-/*
-                    <IconButton
-                        className={clsx(classes.expand, {
-                            [classes.expandOpen]: expanded,
-                        })}
-                        onClick={handleExpandClick}>
-                        <ExpandMoreIcon />
-                    </IconButton>
-
-                                <Collapse in={expanded} timeout="auto" unmountOnExit>
-                    */

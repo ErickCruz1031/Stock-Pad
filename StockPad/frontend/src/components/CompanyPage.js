@@ -87,10 +87,11 @@ const CompanyPage = ({searchTicker}) =>{
             setCap(data.marketcap);//Set market cap (Will have to format this number at a later time)
             setSimilar(data.similar); //Set equal to array of similar tickers
             setURL(data.logo);//Set image URL for logo pictire
+            //We're going to have to query to see if any ticker the user tries to add is already in the user list 
+            //Here check if the company is already in the list for this user 
 
 
         }
-        console.log("ABOUT TO CALL THE API")
         apiCall();
 
 
@@ -161,8 +162,7 @@ const CompanyPage = ({searchTicker}) =>{
                                                  }          
                                                 </>
                                     
-                                               <CardContent >
-
+                                                <CardContent >
                                                     <Grid container className={classes.gridCard} spacing={1} direction="column">
                                                             <Grid item xs={12}>
                                                                 <Typography variant="h4" component="p">
