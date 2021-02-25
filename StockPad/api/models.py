@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class StockNote(models.Model):
-    ticker = models.CharField(max_length=10, default='', unique=True)
+    ticker = models.CharField(max_length=10, default='', unique=False)
     notes = models.CharField(max_length=144, default='', unique=False)
     owner = models.ForeignKey(
         User, related_name="api", on_delete=models.CASCADE, null=True, blank=True)
