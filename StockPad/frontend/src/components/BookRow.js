@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -22,6 +22,8 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import AlarmIcon from '@material-ui/icons/Alarm';
 import TextField from '@material-ui/core/TextField';
+import Box from '@material-ui/core/Box';
+import Alert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles((theme) => ({
   media: {
@@ -39,9 +41,14 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-const BookRow = ({stockObj}) =>{
+const BookRow = ({stockObj, sessionToken}) =>{
     const classes = useStyles();
+    const inputRef = useRef();
+
+    const [inputText, updateInput] = useState(stockObj.notes) //The initial value is going to be the notes
     const [expanded, setExpanded] = useState(false);
+    const [showAlert, setAlert] = useState(false); //Only show the alert when the user submits edit change and succeeds
+    const [callBackend, setBackend] = useState(false) //variable to keep track of whether we are 
     
     const [compTicker, setTicker] = useState(stockObj.ticker);
     const [compNotes, setNotes] = useState(stockObj.notes); 
@@ -49,30 +56,61 @@ const BookRow = ({stockObj}) =>{
 
     const handleExpandClick = () => {
       setExpanded(!expanded);
+      setAlert(false); //Hide the alert in case it's showing
     };
-
+/*
     useEffect(() =>{
       console.log("This is the item for this object ", stockObj);
     }, [] )
-    /*
-
+    
+*/
     useEffect(() =>{
 
       const apiCall = async () =>{
-        //api/get-stocknote/?symbol=AAPL
-        var query = "/api/get-stocknote?symbol=" + currentTicker;
-        const res = await fetch(query);
-        const data = await res.json();
-        console.log("Here is the data ", data);
-        console.log("Query is :", query)
-        setTicker(data.ticker);
-        setNotes(data.notes);
+        var tokenString = 'Token ' + sessionToken
+        var res = await fetch( 'http://localhost:8000/api/create-stocknote/',{
+            method: 'POST',
+            headers :{
+                'Authorization' : tokenString,
+                'Content-Type': 'application/json',
+            }, 
+            body: JSON.stringify({
+              "ticker": compTicker,
+              "notes": inputText,
+            })
+            }).then(response =>
+            response.json().then(data=> {
+
+                console.log("Made it to the callback");
+                console.log("This is the data from get-stocknote", data)
+                console.log("Backend call completed")
+                
+                
+
+        }));
       }
 
-      apiCall();
-    }, [])
-    */
+      if (callBackend){
+        console.log("Checked for status on backend")
+        apiCall();
+        setBackend(false) //Toggle it for next call
+
+      }
+    }, [callBackend])
+    
   
+    const submitChange = e =>{
+      e.preventDefault();
+      console.log("Sending edit request for the ticker")
+      console.log("This is what the input is: ", inputText)
+      setAlert(true);//This might have to be switched to the end of the call 
+      setBackend(true)//Change the state to useEffect gets triggered and calls backend 
+    }
+
+    const inputChange = e =>{
+      updateInput(e.target.value)
+      
+    }
 
     return(
         <Card>
@@ -96,27 +134,39 @@ const BookRow = ({stockObj}) =>{
                 </CardActions>
             </CardActionArea>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
+                <>
+                  { showAlert ? 
+                    <Box pt={3}>
+                      <Alert severity="success">Note Change Saved!</Alert>
+                    </Box>
+                    : 
+                    <> </>
+
+                  }
+                </>
                 <CardContent>
-                    <Typography>Method:</Typography>
-                    <Typography>
-                        Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
-                        minutes. Set aside off of the heat to let rest for 10 minutes, and then serve. HIIIIIIIIIII
-                    </Typography>
                     <TextField
-                      label="Multiline"
+                      ref={inputRef}
+                      label="Edit Stock Note"
                       multiline
                       rows={4}
-                      defaultValue="Default Value"
+                      defaultValue={inputText}
                       variant="outlined"
                       id="standard-full-width"
-            
-                      placeholder="Placeholder"
+                      placeholder={inputText}
                       fullWidth
                       margin="normal"
                       InputLabelProps={{
                         shrink: true,
                       }}
+                      onChange={inputChange}
                     />
+
+                    <Box pt={3}>
+                        <Button variant="outlined" color="primary" onClick={submitChange}> 
+                            Submit Change
+                        </Button>
+                    </Box>
                 </CardContent>
             </Collapse>
         </Card>

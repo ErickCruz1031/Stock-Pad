@@ -81,7 +81,7 @@ const UserList = ({userToken, array}) =>{
                         <Grid container direction="column" spacing={2}>
                             {userStocks.map((stock) =>( 
                                 <Grid item xs={12} key={stock.ticker}>
-                                    <BookRow stockObj={stock}/>
+                                    <BookRow stockObj={stock} sessionToken={userToken}/>
                                 </Grid>
                             ))}
 
