@@ -21,6 +21,7 @@ import regeneratorRuntime from "regenerator-runtime";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {useHistory} from 'react-router-dom';
 import Alert from '@material-ui/lab/Alert';
+import Slide from '@material-ui/core/Slide';
 
 
 const useStyles = makeStyles(() =>({
@@ -71,6 +72,7 @@ const CompanyPage = ({searchTicker}) =>{
     const [similar, setSimilar] = useState([]); //Empty array at first 
     const [imageURL, setURL] = useState("");
     const [apiCount, setAPI] = useState(0) // Initially we are going to set the API
+    const [showAlert, updateAlert] = useState(false)//Do not show teh alert at the beginning 
 
 
     useEffect(() =>{
@@ -110,6 +112,7 @@ const CompanyPage = ({searchTicker}) =>{
 
     const addStock = e =>{
         console.log("User wants to add ", currentTicker);
+        updateAlert(true)
         //When you do this toggle an alert on
     }
 
@@ -129,14 +132,34 @@ const CompanyPage = ({searchTicker}) =>{
                     <Grid item xs={2} />
                     <Grid item xs={8}>
                         <Grid container direction-="column" alignItems="center" justify="center">
+
+
+                            {showAlert?
+                                <>
+                                    <Grid item xs={2} />
+                                    <Grid item xs={8}>
+                                    <Slide direction="up" in={showAlert} mountOnEnter unmountOnExit>
+                                        <Box pt={3}>
+                                            <Alert severity="success">Ticker Saved to List!</Alert>
+                                        </Box>
+                                    </Slide>
+                                    </Grid>
+                                    <Grid item xs={2} />
+                                </>
+                                :
+                                <> </>
+
+                            }
+
+
                             <Grid item xs={4}>
-                                <Box pt={10} pb={5}>
+                                <Box pt={3} pb={3}>
                                     <TextField id="standard-basic" placeholder="Enter Ticker Here" onChange={changeInput}/>
                                 </Box>
                             </Grid>
 
                             <Grid item xs={2}>
-                                <Box pt={10}>
+                                <Box pt={5} pb={3}>
                                     <Button variant="contained" color="secondary" onClick={buttonTrigger}>
                                         Search
                                     </Button>
@@ -216,7 +239,7 @@ const CompanyPage = ({searchTicker}) =>{
                                                 </CardContent>
                                     </CardActionArea>
                                     <CardActions>
-                                        <Button size="small" color="primary">
+                                        <Button size="small" color="primary" onClick={addStock}>
                                         Add to Notebook
                                         </Button>
                                     </CardActions>
@@ -226,15 +249,6 @@ const CompanyPage = ({searchTicker}) =>{
                     </Grid>
                     <Grid item xs={2} />
 
-
-
-                    <Grid item xs={2} />
-                    <Grid item xs={8}>
-                        <Box pt={5}>
-                            <Alert severity="success">Ticker Saved to List!</Alert>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={2} />
 
                 
                 </Grid>
@@ -251,81 +265,11 @@ const CompanyPage = ({searchTicker}) =>{
 export default CompanyPage;
 
 /*
-<Card className={classes.rootCard}>
-                                    <CardActionArea>
-                                                <> {imageURL ? 
-
-                                                    <CardMedia
-                                                    className={classes.media}
-                                                    image={imageURL}
-                                                    title="TSLA"
-                                                    />
-
-                                                    :
-
-                                                    <CircularProgress />
-
-                                                 }          
-                                                </>
-                                    
-                                               <CardContent >
-
-                                                    <Grid container className={classes.gridCard} spacing={1} direction="column">
-                                                            <Grid item xs={12}>
-                                                                <Typography variant="h4" component="p">
-                                                                    {compName}
-                                                                </Typography>
-                                                            </Grid>
-
-                                                            <Grid item xs={12}>
-                                                                <Typography gutterBottom variant="h5" component="p">
-                                                                    Description
-                                                                </Typography>
-                                                            </Grid>
-                                                            <Grid item xs={12}>
-                                                                <Typography gutterBottom variant="body1" component="p">
-                                                                    {descText}
-                                                                </Typography>
-                                                            </Grid>
-                                                            <Grid item xs={12}>
-                                                                <Typography gutterBottom variant="h5" component="p">
-                                                                    CEO
-                                                                </Typography>
-                                                            </Grid>
-                                                            <Grid item xs={12}>
-                                                                <Typography gutterBottom variant="body1" component="p">
-                                                                    {ceoText}
-                                                                </Typography>
-                                                            </Grid>
-                                                            <Grid item xs={12}>
-                                                                <Typography gutterBottom variant="h5" component="p">
-                                                                    Market Cap
-                                                                </Typography>
-                                                            </Grid>
-                                                            <Grid item xs={12}>
-                                                                <Typography gutterBottom variant="body1" component="p">
-                                                                    {capText}
-                                                                </Typography>
-                                                            </Grid>
-                                                            <Grid item xs={12}>
-                                                                <Typography gutterBottom variant="h5" component="p">
-                                                                    Similar
-                                                                </Typography>
-                                                            </Grid>
-                                                            <Grid item xs={12}>
-                                                                <Typography gutterBottom variant="body1" component="p">
-                                                                    {similar}
-                                                                </Typography>
-                                                            </Grid>
-                                                            
-                                                            
-                                                    </Grid>
-                                                </CardContent>
-                                    </CardActionArea>
-                                    <CardActions>
-                                        <Button size="small" color="primary">
-                                        Add to Notebook
-                                        </Button>
-                                    </CardActions>
-                                </Card>
+                    <Grid item xs={2} />
+                    <Grid item xs={8}>
+                        <Box pt={5}>
+                            <Alert severity="success">Ticker Saved to List!</Alert>
+                        </Box>
+                    </Grid>
+                    <Grid item xs={2} />
 */

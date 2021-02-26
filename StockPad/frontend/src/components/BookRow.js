@@ -38,9 +38,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-
-
-
 const BookRow = ({stockObj, sessionToken}) =>{
     const classes = useStyles();
     const inputRef = useRef();
@@ -58,12 +55,6 @@ const BookRow = ({stockObj, sessionToken}) =>{
       setExpanded(!expanded);
       setAlert(false); //Hide the alert in case it's showing
     };
-/*
-    useEffect(() =>{
-      console.log("This is the item for this object ", stockObj);
-    }, [] )
-    
-*/
     useEffect(() =>{
 
       const apiCall = async () =>{
@@ -104,7 +95,8 @@ const BookRow = ({stockObj, sessionToken}) =>{
       console.log("Sending edit request for the ticker")
       console.log("This is what the input is: ", inputText)
       setAlert(true);//This might have to be switched to the end of the call 
-      setBackend(true)//Change the state to useEffect gets triggered and calls backend 
+      setBackend(true)//Change the state to useEffect gets triggered and calls backend
+      setNotes(inputText); 
     }
 
     const inputChange = e =>{
