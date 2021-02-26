@@ -1,2 +1,0 @@
-//"dev": "webpack --mode development --entry ./StockPad/frontend/src/index.js --output-path ./StockPad/frontend/static/frontend/main.js",
-//"build": "webpack --mode production ./StockPad/frontend/src/index.js --output-path ./StockPad/frontend/static/frontend/main.js"

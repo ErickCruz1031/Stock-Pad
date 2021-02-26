@@ -128,9 +128,7 @@ const BookRow = ({stockObj, sessionToken}) =>{
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <>
                   { showAlert ? 
-                    <Box pt={3}>
                       <Alert severity="success">Note Change Saved!</Alert>
-                    </Box>
                     : 
                     <> </>
 
@@ -166,4 +164,11 @@ const BookRow = ({stockObj, sessionToken}) =>{
 }
 
 export default BookRow;
+
+/*
+                    <Box pt={3}>
+                      <Alert severity="success">Note Change Saved!</Alert>
+                    </Box>
+
+*/
 

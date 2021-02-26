@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom'
-import Dashboard from './Dashboard/Dashboard';
 import Header from './Header'
 import Grid from '@material-ui/core/Grid';
 import { Card } from '@material-ui/core';
@@ -139,7 +138,7 @@ const CompanyPage = ({searchTicker}) =>{
                                     <Grid item xs={2} />
                                     <Grid item xs={8}>
                                     <Slide direction="up" in={showAlert} mountOnEnter unmountOnExit>
-                                        <Box pt={3}>
+                                        <Box pt={1}>
                                             <Alert severity="success">Ticker Saved to List!</Alert>
                                         </Box>
                                     </Slide>
