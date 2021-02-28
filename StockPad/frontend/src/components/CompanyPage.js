@@ -119,7 +119,11 @@ const CompanyPage = ({searchTicker}) =>{
         console.log("Opted to go for the notebook from the company page, pushing...", history);
         history.push('/userlist');
 
+    }
 
+    const homeLink = () =>{
+        console.log("Going home. Pushing to the history");
+        history.push('/home');
     }
 
 
@@ -130,7 +134,7 @@ const CompanyPage = ({searchTicker}) =>{
             <Grid container directtion="column" spacing={1}>
                 <Grid container direction="row">
                     <Grid item xs={12}>
-                        <Header noteCall={notebookLink}/>
+                        <Header noteCall={notebookLink} homeCall={homeLink}/>
                     </Grid>
                 </Grid>
 

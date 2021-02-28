@@ -6,6 +6,7 @@ import BookRow from './BookRow'
 import Box from '@material-ui/core/Box';
 import useStateWithCallback from 'use-state-with-callback';
 import List from './List'
+import {useHistory} from 'react-router-dom';
 
 
 const useStyles = makeStyles(() =>({
@@ -22,6 +23,8 @@ const useStyles = makeStyles(() =>({
 const UserList = ({userToken, array}) =>{
 
     const classes = useStyles();
+    const history = useHistory();
+
     const [userStocks, setStocks] = useState([]);
     const [fetched, setFetch] = useState(false) //Set to empty array
 
@@ -64,14 +67,26 @@ const UserList = ({userToken, array}) =>{
         
   
     }, [userStocks]) //Include the empty dependency array for the useEffect
-    //This call will get called when this component gets mounted 
+    //This call will get called when this component gets mounted
+    
+    const notebookLink = () =>{
+        console.log("Opted to go for the notebook from the user list page, pushing...", history);
+        history.push('/userlist');
+
+    }
+
+    const homeLink = () =>{
+        console.log("Going home. Pushing to the history");
+        history.push('/home');
+    }
+
 
 
     return(
         <div className={classes.root}>
             <Grid container direction="column" spacing={1}>
                 <Grid item>
-                    <Header />
+                    <Header noteCall={notebookLink} homeCall={homeLink}/>
                 </Grid>
                 <Grid container direction="row" spacing={1}>
                     <Grid item xs={2} />
