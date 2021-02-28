@@ -76,6 +76,35 @@ const CompanyPage = ({searchTicker}) =>{
 
     useEffect(() =>{
 
+        const createNote = async () =>{
+            var tokenString = 'Token ' + userToken
+            var res = await fetch( 'http://localhost:8000/api/get-stocknote/',{
+                method: 'GET',
+                headers :{
+                    'Authorization' : tokenString,
+                    'Content-Type': 'application/json',
+                }
+                }).then(response =>
+                response.json().then(data=> {
+
+                    console.log("Made it to the call here");
+                    console.log("This is the data from get-stocknote", data.length)
+                    console.log(data)
+                   console.log(userStocks, " is the obj afterwards")
+                   console.log(typeof([]))
+                   setStocks(data)
+                   setFetch(!fetched) //Set the stocks for this user
+                   console.log(typeof(data))
+                    
+                    
+  
+            }));
+  
+        }//API call for the backend to create a new object for this stock (STILL WORKING)
+
+
+
+
         const apiCall = async() =>{
             const query = "https://api.polygon.io/v1/meta/symbols/" + currentTicker + "/company?apiKey=EwdgXn2W7ptj4vkx9B40T3HiVEvV4v3e";
             console.log("this is the query: ", query);
@@ -92,7 +121,7 @@ const CompanyPage = ({searchTicker}) =>{
             //Here check if the company is already in the list for this user 
 
 
-        }
+        }//API cal to fetch data from the third-party API
         apiCall();
 
 

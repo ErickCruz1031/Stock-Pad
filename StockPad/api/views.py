@@ -74,3 +74,33 @@ class CreateStockNoteView(APIView):
                 Object.save()
                 return Response(StockNoteSerializer(Object).data, status=status.HTTP_200_OK)
         return Response({'Bad Request: Invalid Data or Entry for Ticker Already Exists'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CreateNewStocknoteView(APIView):
+    permission_classes=[
+        permissions.IsAuthenticated
+    ]#Make sure this user is authenticated to get to this view
+
+    serializer_class = StockNoteSerializer
+
+    def post(self, request, format=None):
+        if not self.request.session.exists(self.request.session.session_key):
+            self.request.session.create()
+
+        serializer = self.serializer_class(data=request.data)
+        #############
+        #The incoming string for Notes cannot be empty. Add a filler so the serializer check doesnt fail
+        #############
+
+        if serializer.is_valid():
+            ticker = serializer.data.get('ticker')
+            #Notes will be empty since this method will only be used for new object creations
+            queryset = StockNote.objects.filter(ticker=ticker, owner=self.request.user) #Check if this user already has that objects on their list
+
+            if queryset.exists():
+                return Response({'Bad Request: User Already has this Ticker on their List'}, status=status.HTTP_400_BAD_REQUEST) #If the user already has this entry then reject but only for this method
+            else:
+                Object = StockNote(ticker=ticker, owner=self.request.user)
+                Object.save()
+                return Response(StockNoteSerializer(Object).data, status=status.HTTP_200_OK)
+        return Response({'Bad Request: Invalid Data for this Request'}, status=status.HTTP_400_BAD_REQUEST)
