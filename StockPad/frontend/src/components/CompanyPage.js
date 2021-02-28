@@ -115,6 +115,13 @@ const CompanyPage = ({searchTicker}) =>{
         //When you do this toggle an alert on
     }
 
+    const notebookLink = () =>{
+        console.log("Opted to go for the notebook from the company page, pushing...", history);
+        history.push('/userlist');
+
+
+    }
+
 
 
    
@@ -123,7 +130,7 @@ const CompanyPage = ({searchTicker}) =>{
             <Grid container directtion="column" spacing={1}>
                 <Grid container direction="row">
                     <Grid item xs={12}>
-                        <Header />
+                        <Header noteCall={notebookLink}/>
                     </Grid>
                 </Grid>
 
