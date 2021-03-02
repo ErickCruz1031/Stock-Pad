@@ -78,7 +78,7 @@ const App = () =>{
                 <Switch>
                     <Route exact path='/' component={() => <SignIn setLogState={updateLogState}/>} />
                     <Route path='/home' component = {() => <Home stockList={tickerList} queryFunc={queryTrigger}/>} />
-                    <Route path='/companypage' component={() => <CompanyPage searchTicker={queryTicker} />} />
+                    <Route path='/companypage' component={() => <CompanyPage searchTicker={queryTicker} userToken={sessionToken}/>} />
                     <Route path='/userlist' component={() => <UserList userToken={sessionToken} array={userStocks}/>} />
                     <Route path='/' component={() => <SignIn setLogState={updateLogState}/>} />
                 </Switch>

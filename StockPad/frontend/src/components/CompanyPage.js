@@ -57,7 +57,7 @@ const useStyles = makeStyles(() =>({
 
 
 //const CompanyPage = ({searchTicker}) =>{
-const CompanyPage = ({searchTicker}) =>{
+const CompanyPage = ({searchTicker, userToken}) =>{
 
     const classes = useStyles();
     const history = useHistory();
@@ -73,12 +73,14 @@ const CompanyPage = ({searchTicker}) =>{
     const [apiCount, setAPI] = useState(0) // Initially we are going to set the API
     const [showAlert, updateAlert] = useState(false)//Do not show teh alert at the beginning 
 
+    const [createTrigger, setTrigger] = useState(false) //We aren't creating new notes going into the component
+
 
     useEffect(() =>{
 
         const createNote = async () =>{
             var tokenString = 'Token ' + userToken
-            var res = await fetch( 'http://localhost:8000/api/get-stocknote/',{
+            var res = await fetch( 'http://localhost:8000/api/create-new/',{
                 method: 'GET',
                 headers :{
                     'Authorization' : tokenString,
@@ -87,17 +89,9 @@ const CompanyPage = ({searchTicker}) =>{
                 }).then(response =>
                 response.json().then(data=> {
 
-                    console.log("Made it to the call here");
-                    console.log("This is the data from get-stocknote", data.length)
-                    console.log(data)
-                   console.log(userStocks, " is the obj afterwards")
-                   console.log(typeof([]))
-                   setStocks(data)
-                   setFetch(!fetched) //Set the stocks for this user
-                   console.log(typeof(data))
-                    
-                    
-  
+                   console.log("Made it to the call here");
+                   console.log("This is the data from create-new", data)
+                   setTrigger(false) //Set the stocks for this user
             }));
   
         }//API call for the backend to create a new object for this stock (STILL WORKING)
