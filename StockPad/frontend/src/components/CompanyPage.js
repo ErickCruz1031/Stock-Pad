@@ -70,7 +70,7 @@ const CompanyPage = ({searchTicker, userToken}) =>{
     const [capText, setCap] = useState(0);
     const [similar, setSimilar] = useState([]); //Empty array at first 
     const [imageURL, setURL] = useState("");
-    const [apiCount, setAPI] = useState(0) // Initially we are going to set the API
+    const [apiState, setAPI] = useState(true) // Initially we are going to set the API ---> Going to change to a boolean instead of a integer variable
     const [showAlert, updateAlert] = useState(false)//Do not show teh alert at the beginning 
 
     const [createTrigger, setTrigger] = useState(false) //We aren't creating new notes going into the component
@@ -111,15 +111,25 @@ const CompanyPage = ({searchTicker, userToken}) =>{
             setCap(data.marketcap);//Set market cap (Will have to format this number at a later time)
             setSimilar(data.similar); //Set equal to array of similar tickers
             setURL(data.logo);//Set image URL for logo pictire
+            setAPI(false); //Set it to false before returning
             //We're going to have to query to see if any ticker the user tries to add is already in the user list 
             //Here check if the company is already in the list for this user 
 
 
         }//API cal to fetch data from the third-party API
-        apiCall();
+        
+        if(apiState){
+            apiCall();
+        }//Only call the polygon API if the state is true 
+
+        if(createTrigger){
+            createNote();
+        }//If the call was to create a new Stocknote then call the backend API
+
+        
 
 
-    }, [apiCount]) //Make sure it only executed when the component is created
+    }, [apiState, createTrigger]) //Make sure it only executed when the component is created or when the API call is triggered to add new element
 
     const changeInput = (e) =>{
         setSearch(e.target.value);
@@ -128,13 +138,14 @@ const CompanyPage = ({searchTicker, userToken}) =>{
 
     const buttonTrigger = e =>{
         e.preventDefault();
-        setAPI(apiCount + 1) //Just change it to trigger the API to call and change the state
+        setAPI(true) //Just change it to trigger the API to call and change the state
         
     }
 
     const addStock = e =>{
         console.log("User wants to add ", currentTicker);
         updateAlert(true)
+        setTrigger(true)//Set the trigger to call the backend
         //When you do this toggle an alert on
     }
 
