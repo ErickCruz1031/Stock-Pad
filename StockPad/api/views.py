@@ -94,13 +94,39 @@ class CreateNewStocknoteView(APIView):
 
         if serializer.is_valid():
             ticker = serializer.data.get('ticker')
-            #Notes will be empty since this method will only be used for new object creations
+            notes = serializer.data.get('notes')
             queryset = StockNote.objects.filter(ticker=ticker, owner=self.request.user) #Check if this user already has that objects on their list
 
             if queryset.exists():
                 return Response({'Bad Request: User Already has this Ticker on their List'}, status=status.HTTP_400_BAD_REQUEST) #If the user already has this entry then reject but only for this method
             else:
-                Object = StockNote(ticker=ticker, owner=self.request.user)
+                Object = StockNote(ticker=ticker, notes=notes, owner=self.request.user)
                 Object.save()
-                return Response({'created': 'true'}, status=status.HTTP_200_OK) #Testing to see if the json works 
+                return Response({'Created': 'true'}, status=status.HTTP_200_OK) #Testing to see if the json works 
+        return Response({'Bad Request: Invalid Data for this Request'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+#This method will be to delete Stocknote objects 
+#TEST THIS METHOD OUT
+class deleteStocknote(APIView):
+    permission_classes=[
+        permissions.IsAuthenticated
+    ]
+
+    serializer_class = StockNoteSerializer
+
+    def post(self, request, format=None):
+        serializer = self.serializer_class(data=request.data) #Serialize class
+        #Incoming object will need to have a stocknote. Perhaps create a new serializer to just have the ticker and user 
+
+        if serializer.is_valid():
+            ticker = serializer.data.get('ticker')
+            notes = serializer.data.get('notes')
+
+            queryset = StockNote.objects.filter(ticker=ticker, owner=self.request.user)
+
+            if queryset.exists(): #If this ticker exists on the userlist, then delete it 
+                StockNote.objects.filter(ticker=ticker, owner=self.request.user).delete()
+                return Response({'StockNote has been deleted!'}, status=status.HTTP_200_OK)
+            return Response({'StockNote With that Ticker Does Not Exist'}, status=status.HTTP_400_BAD_REQUEST)
         return Response({'Bad Request: Invalid Data for this Request'}, status=status.HTTP_400_BAD_REQUEST)

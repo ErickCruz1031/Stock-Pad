@@ -72,6 +72,7 @@ const CompanyPage = ({searchTicker, userToken}) =>{
     const [imageURL, setURL] = useState("");
     const [apiState, setAPI] = useState(true) // Initially we are going to set the API ---> Going to change to a boolean instead of a integer variable
     const [showAlert, updateAlert] = useState(false)//Do not show teh alert at the beginning 
+    const [errorAlert, updateErrorAlert] = useState(false)//This is for the error alert when the ticker is already on the user's 
 
     const [createTrigger, setTrigger] = useState(false) //We aren't creating new notes going into the component
 
@@ -81,11 +82,15 @@ const CompanyPage = ({searchTicker, userToken}) =>{
         const createNote = async () =>{
             var tokenString = 'Token ' + userToken
             var res = await fetch( 'http://localhost:8000/api/create-new/',{
-                method: 'GET',
+                method: 'POST',
                 headers :{
                     'Authorization' : tokenString,
                     'Content-Type': 'application/json',
-                }
+                },
+                body: JSON.stringify({
+                    "ticker": currentTicker,
+                    "notes": "Placeholder",
+                })
                 }).then(response =>
                 response.json().then(data=> {
 
@@ -117,12 +122,16 @@ const CompanyPage = ({searchTicker, userToken}) =>{
 
 
         }//API cal to fetch data from the third-party API
+
+        console.log("We are in the call for the company page")
         
         if(apiState){
+            console.log("Executing the API call")
             apiCall();
         }//Only call the polygon API if the state is true 
 
         if(createTrigger){
+            console.log("Executing the backend call for a new stocknote")
             createNote();
         }//If the call was to create a new Stocknote then call the backend API
 
@@ -185,6 +194,23 @@ const CompanyPage = ({searchTicker, userToken}) =>{
                                     <Slide direction="up" in={showAlert} mountOnEnter unmountOnExit>
                                         <Box pt={1}>
                                             <Alert severity="success">Ticker Saved to List!</Alert>
+                                        </Box>
+                                    </Slide>
+                                    </Grid>
+                                    <Grid item xs={2} />
+                                </>
+                                :
+                                <> </>
+
+                            }
+
+                            {errorAlert?
+                                <>
+                                    <Grid item xs={2} />
+                                    <Grid item xs={8}>
+                                    <Slide direction="up" in={showAlert} mountOnEnter unmountOnExit>
+                                        <Box pt={1}>
+                                            <Alert severity="error">Ticker Is Alread on the User's List!</Alert>
                                         </Box>
                                     </Slide>
                                     </Grid>
