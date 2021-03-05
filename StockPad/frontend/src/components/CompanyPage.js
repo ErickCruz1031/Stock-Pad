@@ -101,7 +101,15 @@ const CompanyPage = ({searchTicker, userToken}) =>{
                    //var res = data.json()
                    console.log("Made it to the call here with code ", data.Status);
                    console.log("This is the data from create-new", data)
-                   setTrigger(false) //Set the stocks for this user
+                   if (data.Status == 400){
+                       console.log("The error was 400")
+                       updateErrorAlert(true)//Show the error alert
+                   }
+                   else{
+                    updateAlert(true)//Show the successful alert 
+
+                   }
+                   setTrigger(false)//Set trigger off for next call to this function
             });
   
         }//API call for the backend to create a new object for this stock (STILL WORKING)
@@ -158,7 +166,8 @@ const CompanyPage = ({searchTicker, userToken}) =>{
 
     const addStock = e =>{
         console.log("User wants to add ", currentTicker);
-        updateAlert(true)
+        console.log("The states are ", errorAlert , " and ",showAlert )
+        
         setTrigger(true)//Set the trigger to call the backend
         //When you do this toggle an alert on
     }
@@ -213,7 +222,7 @@ const CompanyPage = ({searchTicker, userToken}) =>{
                                 <>
                                     <Grid item xs={2} />
                                     <Grid item xs={8}>
-                                    <Slide direction="up" in={showAlert} mountOnEnter unmountOnExit>
+                                    <Slide direction="up" in={errorAlert} mountOnEnter unmountOnExit>
                                         <Box pt={1}>
                                             <Alert severity="error">Ticker Is Alread on the User's List!</Alert>
                                         </Box>

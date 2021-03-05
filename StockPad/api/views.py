@@ -102,7 +102,7 @@ class CreateNewStocknoteView(APIView):
             else:
                 Object = StockNote(ticker=ticker, notes=notes, owner=self.request.user)
                 Object.save()
-                return Response({'Status': 'Ok'}, status=status.HTTP_200_OK) #Testing to see if the json works 
+                return Response({'Status': 200}, status=status.HTTP_200_OK) #Testing to see if the json works 
         return Response({'Status' : 400}, status=status.HTTP_400_BAD_REQUEST)
 
 
