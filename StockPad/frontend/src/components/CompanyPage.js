@@ -167,7 +167,6 @@ const CompanyPage = ({searchTicker, userToken}) =>{
     const addStock = e =>{
         console.log("User wants to add ", currentTicker);
         console.log("The states are ", errorAlert , " and ",showAlert )
-        
         setTrigger(true)//Set the trigger to call the backend
         //When you do this toggle an alert on
     }

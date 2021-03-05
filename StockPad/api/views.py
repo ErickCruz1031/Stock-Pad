@@ -121,7 +121,7 @@ class deleteStocknote(APIView):
 
         if serializer.is_valid():
             ticker = serializer.data.get('ticker')
-            notes = serializer.data.get('notes')
+            #notes = serializer.data.get('notes')
 
             queryset = StockNote.objects.filter(ticker=ticker, owner=self.request.user)
 
@@ -130,3 +130,25 @@ class deleteStocknote(APIView):
                 return Response({'StockNote has been deleted!'}, status=status.HTTP_200_OK)
             return Response({'StockNote With that Ticker Does Not Exist'}, status=status.HTTP_400_BAD_REQUEST)
         return Response({'Bad Request: Invalid Data for this Request'}, status=status.HTTP_400_BAD_REQUEST)
+
+'''
+class deleteStocknote(APIView):
+    permissions_classes=[
+        permissions.IsAuthenticated
+    ]
+
+    serializer_class = StockNoteSerializer
+
+    def post(self, request, format=None):
+
+        serializer = self.serializer_class(data=request.data) #Serialize the incoming data 
+        
+        if serializer.is_valid():
+            ticker = serializer.data.get('ticker')
+            notes = serializer.data.get('notes')
+            queryset = StockNote.objects.filter(ticker=ticker, owner=self.request.user) #Filter for the objects in the database that 
+
+            if queryset.exists(): #If there are objects with this ticker for this user then delete the Stocknote entry 
+                #SomeModel.objects.filter(id=id).delete()
+
+'''
