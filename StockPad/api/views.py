@@ -98,12 +98,12 @@ class CreateNewStocknoteView(APIView):
             queryset = StockNote.objects.filter(ticker=ticker, owner=self.request.user) #Check if this user already has that objects on their list
 
             if queryset.exists():
-                return Response({'Bad Request: User Already has this Ticker on their List'}, status=status.HTTP_400_BAD_REQUEST) #If the user already has this entry then reject but only for this method
+                return Response({'Status' : 400}, status=status.HTTP_400_BAD_REQUEST) #If the user already has this entry then reject but only for this method
             else:
                 Object = StockNote(ticker=ticker, notes=notes, owner=self.request.user)
                 Object.save()
-                return Response({'Created': 'true'}, status=status.HTTP_200_OK) #Testing to see if the json works 
-        return Response({'Bad Request: Invalid Data for this Request'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'Status': 'Ok'}, status=status.HTTP_200_OK) #Testing to see if the json works 
+        return Response({'Status' : 400}, status=status.HTTP_400_BAD_REQUEST)
 
 
 #This method will be to delete Stocknote objects 

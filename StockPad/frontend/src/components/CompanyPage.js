@@ -91,13 +91,18 @@ const CompanyPage = ({searchTicker, userToken}) =>{
                     "ticker": currentTicker,
                     "notes": "Placeholder",
                 })
-                }).then(response =>
-                response.json().then(data=> {
+                }).then(response =>{
 
-                   console.log("Made it to the call here");
+                    
+                   return response.json()
+                   //return [response.json(), response.status]
+
+                }).then(data=> {
+                   //var res = data.json()
+                   console.log("Made it to the call here with code ", data.Status);
                    console.log("This is the data from create-new", data)
                    setTrigger(false) //Set the stocks for this user
-            }));
+            });
   
         }//API call for the backend to create a new object for this stock (STILL WORKING)
 
@@ -335,11 +340,25 @@ const CompanyPage = ({searchTicker, userToken}) =>{
 export default CompanyPage;
 
 /*
-                    <Grid item xs={2} />
-                    <Grid item xs={8}>
-                        <Box pt={5}>
-                            <Alert severity="success">Ticker Saved to List!</Alert>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={2} />
+        const createNote = async () =>{
+            var tokenString = 'Token ' + userToken
+            var res = await fetch( 'http://localhost:8000/api/create-new/',{
+                method: 'POST',
+                headers :{
+                    'Authorization' : tokenString,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    "ticker": currentTicker,
+                    "notes": "Placeholder",
+                })
+                }).then(response =>
+                response.json().then(data=> {
+
+                   console.log("Made it to the call here");
+                   console.log("This is the data from create-new", data)
+                   setTrigger(false) //Set the stocks for this user
+            }));
+  
+        }//API call for the backend to create a new object for this stock (STILL WORKING)
 */
