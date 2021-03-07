@@ -25,6 +25,7 @@ import TextField from '@material-ui/core/TextField';
 import Box from '@material-ui/core/Box';
 import Alert from '@material-ui/lab/Alert';
 import Grid from '@material-ui/core/Grid';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles((theme) => ({
   media: {
@@ -39,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const BookRow = ({stockObj, sessionToken}) =>{
+const BookRow = ({stockObj, sessionToken, deleteFunc}) =>{
     const classes = useStyles();
     const inputRef = useRef();
 
@@ -52,12 +53,14 @@ const BookRow = ({stockObj, sessionToken}) =>{
     const [compNotes, setNotes] = useState(stockObj.notes); 
     const [compInfo, setInfo] = useState("");//For future use for the price and news for the day
     const [deleteState, setDeleteState] = useState(true);//Controls whether we show the delete or the edit view for the 'Collapse'
+    const [waitingDelete, setWaitingSelete] = useState(false);//Controls whether the entire card is shown or circular progress is shown for deletion request
 
     const handleExpandClick = () => {
       setExpanded(!expanded);
       setAlert(false); //Hide the alert in case it's showing
     };
     useEffect(() =>{
+
 
       const apiCall = async () =>{
         var tokenString = 'Token ' + sessionToken
@@ -106,94 +109,107 @@ const BookRow = ({stockObj, sessionToken}) =>{
       
     }
 
+    const sendDeleteReq = e =>{
+      e.preventDefault();
+      console.log("Going to request the deletion of this stocknote object");
+      setWaitingSelete(!waitingDelete) //
+      deleteFunc(compTicker); //Call to delete this function
+    }
+
     return(
         <Card>
-            <CardActionArea>
-                <CardContent className={classes.media}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      {compTicker}
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary" component="p">
-                      {compNotes}
-                    </Typography>
-                </CardContent>
-                <CardActions>
-                    <IconButton
-                        className={clsx(classes.expand, {
-                            [classes.expandOpen]: expanded,
-                        })}
-                        onClick={handleExpandClick}>
-                        <ExpandMoreIcon />
-                    </IconButton>
-                </CardActions>
-            </CardActionArea>
-            <Collapse in={expanded} timeout="auto" unmountOnExit>
-              {deleteState?
-                <>
-                  <Grid container direction='column' spacing={1} alignItems='center'>
-                    <Grid item xs={12}>
-                      <Box pt={4}>
-                        <Typography>
-                          Are you sure you want to delete this ticker from your list?  
-                        </Typography> 
-                      </Box>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Box pt={2} pb={2}>
-                            <Button variant="outlined" color="primary"> 
-                                Yes
-                            </Button>
-                      </Box>
-                    </Grid>
-
-                    <Grid item xs={6}>
-                      <Box pt={2} pb={2}>
-                            <Button variant="outlined" color="secondary"> 
-                                No
-                            </Button>
-                      </Box>
-                    </Grid>
-                  </Grid>
-                
-                </>
-
-
-                :
-                <>
-                  { showAlert ? 
-                      <Alert severity="success">Note Change Saved!</Alert>
-                    : 
-                    <> </>
-
-                  }
-                
-                  <CardContent>
-                      <TextField
-                        ref={inputRef}
-                        label="Edit Stock Note"
-                        multiline
-                        rows={4}
-                        defaultValue={inputText}
-                        variant="outlined"
-                        id="standard-full-width"
-                        placeholder={inputText}
-                        fullWidth
-                        margin="normal"
-                        InputLabelProps={{
-                          shrink: true,
-                        }}
-                        onChange={inputChange}
-                      />
-
-                      <Box pt={3}>
-                          <Button variant="outlined" color="primary" onClick={submitChange}> 
-                              Submit Change
-                          </Button>
-                      </Box>
+          {waitingDelete ?
+            <CircularProgress />
+            :
+            <>
+              <CardActionArea>
+                  <CardContent className={classes.media}>
+                      <Typography gutterBottom variant="h5" component="h2">
+                        {compTicker}
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary" component="p">
+                        {compNotes}
+                      </Typography>
                   </CardContent>
-                </>
-              }
-            </Collapse>
+                  <CardActions>
+                      <IconButton
+                          className={clsx(classes.expand, {
+                              [classes.expandOpen]: expanded,
+                          })}
+                          onClick={handleExpandClick}>
+                          <ExpandMoreIcon />
+                      </IconButton>
+                  </CardActions>
+              </CardActionArea>
+              <Collapse in={expanded} timeout="auto" unmountOnExit>
+                {deleteState?
+                  <>
+                    <Grid container direction='column' spacing={1} alignItems='center'>
+                      <Grid item xs={12}>
+                        <Box pt={4}>
+                          <Typography>
+                            Are you sure you want to delete this ticker from your list?  
+                          </Typography> 
+                        </Box>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Box pt={2} pb={2}>
+                              <Button variant="outlined" color="primary" onClick={sendDeleteReq}> 
+                                  Yes
+                              </Button>
+                        </Box>
+                      </Grid>
+
+                      <Grid item xs={6}>
+                        <Box pt={2} pb={2}>
+                              <Button variant="outlined" color="secondary"> 
+                                  No
+                              </Button>
+                        </Box>
+                      </Grid>
+                    </Grid>
+                  
+                  </>
+
+
+                  :
+                  <>
+                    { showAlert ? 
+                        <Alert severity="success">Note Change Saved!</Alert>
+                      : 
+                      <> </>
+
+                    }
+                  
+                    <CardContent>
+                        <TextField
+                          ref={inputRef}
+                          label="Edit Stock Note"
+                          multiline
+                          rows={4}
+                          defaultValue={inputText}
+                          variant="outlined"
+                          id="standard-full-width"
+                          placeholder={inputText}
+                          fullWidth
+                          margin="normal"
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                          onChange={inputChange}
+                        />
+
+                        <Box pt={3}>
+                            <Button variant="outlined" color="primary" onClick={submitChange}> 
+                                Submit Change
+                            </Button>
+                        </Box>
+                    </CardContent>
+                  </>
+                }
+              </Collapse>
+            </>
+          }
         </Card>
     )
 }
