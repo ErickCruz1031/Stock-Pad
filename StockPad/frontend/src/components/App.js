@@ -3,7 +3,6 @@ import {render} from 'react-dom'
 import Header from './Header'
 import Home from './Home'
 import Grid from '@material-ui/core/Grid';
-import Content from './Content';
 import StockRow from './StockRow';
 import CompanyPage from './CompanyPage'
 import { Card } from '@material-ui/core';
@@ -13,7 +12,6 @@ import TextField from '@material-ui/core/TextField';
 import Box from '@material-ui/core/Box';
 import {useState, useEffect} from 'react';
 import UserList from './UserList';
-import PageController from './PageController';
 import LoginPage from './LoginPage';
 import Signin from './Signin/Signin'
 import {BrowserRouter as Router,

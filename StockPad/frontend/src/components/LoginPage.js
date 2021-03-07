@@ -1,7 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
 import Header from './Header'
 import Grid from '@material-ui/core/Grid';
-import Content from './Content';
 import StockRow from './StockRow';
 import { Card, Typography } from '@material-ui/core';
 import { sizing,palette  } from '@material-ui/system';

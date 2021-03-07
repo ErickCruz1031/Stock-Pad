@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {render} from 'react-dom'
 import Header from './Header'
 import Grid from '@material-ui/core/Grid';
-import Content from './Content';
 import StockRow from './StockRow';
 import { Card } from '@material-ui/core';
 import { sizing,palette  } from '@material-ui/system';
