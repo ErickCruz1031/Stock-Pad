@@ -57,7 +57,7 @@ const UserList = ({userToken, array}) =>{
                     if (data.Status == 200){
                         setStocks(data.objects)
                     }
-                    //setDeleteState(false); //Set it back to false
+                   
                     
     
             }));
@@ -92,15 +92,14 @@ const UserList = ({userToken, array}) =>{
         if (userStocks.length == 0){
             callFetch();
         }//Only call on the first one
-
-        if (deleteRequest){
+        else{//Different if statement here 
             deleteCall();
         }
         
         console.log("THis is what was returned");
         
   
-    }, [userStocks, deleteRequest]) //Include the empty dependency array for the useEffect
+    }, [deleteRequest]) //Include the empty dependency array for the useEffect
     //This call will get called when this component gets mounted
     
     const notebookLink = () =>{
