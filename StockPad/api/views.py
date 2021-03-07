@@ -127,7 +127,20 @@ class deleteStocknote(APIView):
 
             if queryset.exists(): #If this ticker exists on the userlist, then delete it 
                 StockNote.objects.filter(ticker=ticker, owner=self.request.user).delete()
-                return Response({'StockNote has been deleted!'}, status=status.HTTP_200_OK)
+
+                #We are going to return the status and the new list of stocks after the deletion was made
+                target = StockNote.objects.filter(owner=self.request.user)
+                val_list = [] #List that is going to contain the stocks being returned for this user
+                #Filter all the objects that belong to the user
+                if len(target) > 0: #If the query matches something
+                    #Turn the queryset object into a list to serialize
+                    for value in target:
+                        data = StockNoteSerializer(value).data
+                        val_list.append(data)
+                    print("This is the serialized data", val_list)
+                    #return Response(val_list, status=status.HTTP_200_OK)
+
+                return Response({'Status': 200, 'objects' : val_list}, status=status.HTTP_200_OK)
             return Response({'StockNote With that Ticker Does Not Exist'}, status=status.HTTP_400_BAD_REQUEST)
         return Response({'Bad Request: Invalid Data for this Request'}, status=status.HTTP_400_BAD_REQUEST)
 

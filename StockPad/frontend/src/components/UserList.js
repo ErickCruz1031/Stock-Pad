@@ -54,7 +54,10 @@ const UserList = ({userToken, array}) =>{
                     console.log("Made it to the callback for the delete callback");
                     console.log("This is the data from DELETE", data)
                     console.log("Backend call completed")
-                    setDeleteState(false); //Set it back to false
+                    if (data.Status == 200){
+                        setStocks(data.objects)
+                    }
+                    //setDeleteState(false); //Set it back to false
                     
     
             }));
@@ -78,7 +81,7 @@ const UserList = ({userToken, array}) =>{
                    console.log(userStocks, " is the obj afterwards")
                    console.log(typeof([]))
                    setStocks(data)
-                   setFetch(!fetched) //Set the stocks for this user
+                   //setFetch(!fetched) //Set the stocks for this user
                    console.log(typeof(data))
                     
                     
@@ -114,7 +117,7 @@ const UserList = ({userToken, array}) =>{
     const deleteCallback = tick =>{
         console.log("We are going to delete this ticker ", tick)
         setDeleteTicker(tick);//Set the variable to the ticker that we are deleting
-        setDeleteState(true);//Trigger the call to the delete backend API
+        setDeleteState(!deleteRequest);//Trigger the call to the delete backend API
 
     }
 
