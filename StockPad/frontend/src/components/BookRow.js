@@ -53,13 +53,21 @@ const BookRow = ({stockObj, sessionToken, deleteFunc}) =>{
     const [compTicker, setTicker] = useState(stockObj.ticker);
     const [compNotes, setNotes] = useState(stockObj.notes); 
     const [compInfo, setInfo] = useState("");//For future use for the price and news for the day
-    const [deleteState, setDeleteState] = useState(true);//Controls whether we show the delete or the edit view for the 'Collapse'
+    const [deleteState, setDeleteState] = useState(false);//Controls whether we show the delete or the edit view for the 'Collapse'
     const [waitingDelete, setWaitingSelete] = useState(false);//Controls whether the entire card is shown or circular progress is shown for deletion request
 
     const handleExpandClick = () => {
       setExpanded(!expanded);
+      //setDeleteState(false)//To avoid the double rendering when closing
       setAlert(false); //Hide the alert in case it's showing
     };
+
+    const handleExpandClickDelete = () =>{
+      setExpanded(!expanded);//Toggle whenever user clicks this button
+      //We need to add a state variable to track whether or not we show the delete notification
+      //setDeleteState(!deleteState);//This tells the program that we are on the 'Delete' mode on the dropdown
+
+    }
     useEffect(() =>{
 
 
@@ -93,7 +101,11 @@ const BookRow = ({stockObj, sessionToken, deleteFunc}) =>{
         setBackend(false) //Toggle it for next call
 
       }
-    }, [callBackend])
+
+      if (!expanded && deleteState){
+        setDeleteState(!deleteState);
+      }
+    }, [callBackend, expanded])
     
   
     const submitChange = e =>{
@@ -143,8 +155,12 @@ const BookRow = ({stockObj, sessionToken, deleteFunc}) =>{
                      
 
                       <Button
+                      className={clsx(classes.expand, {
+                        [classes.expandOpen]: expanded,
+                        })}
                         variant="contained"
                         color="secondary"
+                        onClick={handleExpandClickDelete}
                         startIcon={<DeleteIcon />} />
                   </CardActions>
               </CardActionArea>
