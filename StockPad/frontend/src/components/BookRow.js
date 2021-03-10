@@ -16,6 +16,7 @@ import CardHeader from '@material-ui/core/CardHeader';
 import Collapse from '@material-ui/core/Collapse';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { red } from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
@@ -132,13 +133,19 @@ const BookRow = ({stockObj, sessionToken, deleteFunc}) =>{
                       </Typography>
                   </CardContent>
                   <CardActions>
-                      <IconButton
-                          className={clsx(classes.expand, {
-                              [classes.expandOpen]: expanded,
-                          })}
-                          onClick={handleExpandClick}>
-                          <ExpandMoreIcon />
-                      </IconButton>
+                      <Button
+                        className={clsx(classes.expand, {
+                            [classes.expandOpen]: expanded,
+                        })}
+                        variant="contained"
+                        color="primary"
+                        onClick={handleExpandClick} startIcon={<ExpandMoreIcon /> } />
+                     
+
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        startIcon={<DeleteIcon />} />
                   </CardActions>
               </CardActionArea>
               <Collapse in={expanded} timeout="auto" unmountOnExit>
@@ -218,37 +225,13 @@ export default BookRow;
 
 /*
 <>
-                  { showAlert ? 
-                      <Alert severity="success">Note Change Saved!</Alert>
-                    : 
-                    <> </>
-
-                  }
-                </>
-                <CardContent>
-                    <TextField
-                      ref={inputRef}
-                      label="Edit Stock Note"
-                      multiline
-                      rows={4}
-                      defaultValue={inputText}
-                      variant="outlined"
-                      id="standard-full-width"
-                      placeholder={inputText}
-                      fullWidth
-                      margin="normal"
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      onChange={inputChange}
-                    />
-
-                    <Box pt={3}>
-                        <Button variant="outlined" color="primary" onClick={submitChange}> 
-                            Submit Change
-                        </Button>
-                    </Box>
-                </CardContent>
+                      <IconButton
+                          className={clsx(classes.expand, {
+                              [classes.expandOpen]: expanded,
+                          })}
+                          onClick={handleExpandClick}>
+                          <ExpandMoreIcon />
+                      </IconButton>
 
 */
 
