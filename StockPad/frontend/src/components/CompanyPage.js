@@ -136,16 +136,57 @@ const CompanyPage = ({searchTicker, userToken}) =>{
 
         }//API cal to fetch data from the third-party API
 
+        const checkCurrentNotes = async () =>{
+            var tokenString = 'Token ' + userToken
+            var res = await fetch( 'http://localhost:8000/api/get-stocknote/',{
+                method: 'GET',
+                headers :{
+                    'Authorization' : tokenString,
+                    'Content-Type': 'application/json',
+                }
+                }).then(response =>
+                response.json().then(data=> {
+
+                    
+                   console.log("This is the data from get-stocknote for this user", data)
+                   console.log("The current ticker we are looking for us ", currentTicker);
+                   for(var i = 0; i < data.length; i++){
+                       if (data[0].ticker == currentTicker){
+                           console.log("We found a match for ticker ", currentTicker);
+                           return true;
+                       }
+
+                   }
+                   return false; //If you looped through the user's notes and didnt find anything for that ticker, then its not there
+                    
+                    
+  
+            }));
+  
+        }//Maybe return true if that ticker already exists on the backend
+
+
         console.log("We are in the call for the company page")
         
         if(apiState){
+
             console.log("Executing the API call")
             apiCall();
         }//Only call the polygon API if the state is true 
 
         if(createTrigger){
-            console.log("Executing the backend call for a new stocknote")
-            createNote();
+            //TODO: Need to check if the stock note is already on the list for this user 
+            //Query the tickers that this user already has on their list 
+            var existCheck = checkCurrentNotes(); 
+            
+            if (!existCheck){ //If the ticker doesnt exist add it 
+                console.log("Executing the backend call for a new stocknote")
+                createNote();
+            }
+            else{
+                console.log("The ticker ", currentTicker, " is already on the users StockBook!");
+            }
+
         }//If the call was to create a new Stocknote then call the backend API
 
         
