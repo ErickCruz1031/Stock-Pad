@@ -84,6 +84,7 @@ const useStyles = makeStyles((theme) => ({
 
     const loginAttempt = () =>{
       console.log("In the frontend about to login...");
+      console.log("OMG WE ARE HERE")
 
       const callSignIn = async () =>{
           var res = await fetch( 'http://localhost:8000/auth/login/',{

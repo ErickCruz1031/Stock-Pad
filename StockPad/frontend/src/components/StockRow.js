@@ -40,16 +40,37 @@ const StockRow = ({newsItem}) =>{
 
     useEffect(() =>{
       console.log("We are mounting this component into the page.");
+      console.log("Placing this for testing hereeeeee")
     
       const apiCall = async () =>{
-        const query = "https://api.polygon.io/v1/meta/symbols/" + newsItem.ticker + "/news?perpage=10&page=1&apiKey=EwdgXn2W7ptj4vkx9B40T3HiVEvV4v3e";
+        //https://api.polygon.io/v2/reference/news?limit=10&order=descending&sort=published_utc&ticker=TSLA&apiKey=EwdgXn2W7ptj4vkx9B40T3HiVEvV4v3e
+        //const query = "https://api.polygon.io/v1/meta/symbols/" + newsItem.ticker + "/news?perpage=10&page=1&apiKey=EwdgXn2W7ptj4vkx9B40T3HiVEvV4v3e";
+        const query = "https://api.polygon.io/v2/reference/news?limit=10&order=descending&sort=published_utc&ticker="+ newsItem.ticker + "&apiKey=EwdgXn2W7ptj4vkx9B40T3HiVEvV4v3e";
+       console.log("The query in this component is ", query);
         const res = await fetch(query);
         const data = await res.json();
-        updateHeadline(data[0].title);
-        updateDesc(data[0].summary);
+        console.log("This is the data for ", newsItem.ticker, " ", data.results[0]);
+        updateHeadline(data.results[0].title);
+        updateDesc(data.results[0].description);
         //Just use the title and summary for the first one right now
 
+        console.log("We are in the new and improved Stockrow");
+
+        /*
+        var res = await fetch("https://api.polygon.io/v2/reference/news?limit=10&order=descending&sort=published_utc&ticker="+ newsItem.ticker + "&apiKey=EwdgXn2W7ptj4vkx9B40T3HiVEvV4v3e")
+          .then(response => 
+            response.json().then(data =>{
+              console.log("Now the data for ", newsItem.ticker, " ", data[0])
+            }))
+            */
+
       }
+
+
+
+
+
+
 
       apiCall();
 
