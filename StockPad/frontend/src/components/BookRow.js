@@ -64,8 +64,9 @@ const BookRow = ({stockObj, sessionToken, deleteFunc}) =>{
 
     const handleExpandClickDelete = () =>{
       setExpanded(!expanded);//Toggle whenever user clicks this button
+      console.log("Pressed the delete button!");
       //We need to add a state variable to track whether or not we show the delete notification
-      //setDeleteState(!deleteState);//This tells the program that we are on the 'Delete' mode on the dropdown
+      setDeleteState(!deleteState);//This tells the program that we are on the 'Delete' mode on the dropdown
 
     }
     useEffect(() =>{
