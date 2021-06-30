@@ -69,6 +69,7 @@ const CompanyPage = ({searchTicker, userToken}) =>{
     const [descText, setDesc] = useState("");
     const [capText, setCap] = useState(0);
     const [similar, setSimilar] = useState([]); //Empty array at first 
+    const [compURL, setcompURL] = useState("");
     const [imageURL, setURL] = useState("");
     const [apiState, setAPI] = useState(true) // Initially we are going to set the API ---> Going to change to a boolean instead of a integer variable
     const [showAlert, updateAlert] = useState(false)//Do not show teh alert at the beginning 
@@ -130,6 +131,7 @@ const CompanyPage = ({searchTicker, userToken}) =>{
             setCap(data.marketcap);//Set market cap (Will have to format this number at a later time)
             setSimilar(data.similar); //Set equal to array of similar tickers
             setURL(data.logo);//Set image URL for logo pictire
+            setcompURL(data.url);//Set the url to the website of the company
             setAPI(false); //Set it to false before returning
             //We're going to have to query to see if any ticker the user tries to add is already in the user list 
             //Here check if the company is already in the list for this user 
@@ -315,12 +317,12 @@ const CompanyPage = ({searchTicker, userToken}) =>{
                                                             </Grid>
                                                             <Grid item xs={12}>
                                                                 <Typography gutterBottom variant="h5" component="p">
-                                                                    Similar
+                                                                    Company Site
                                                                 </Typography>
                                                             </Grid>
                                                             <Grid item xs={12}>
                                                                 <Typography gutterBottom variant="body1" component="p">
-                                                                    {similar}
+                                                                    {compURL} 
                                                                 </Typography>
                                                             </Grid>
                                                             
