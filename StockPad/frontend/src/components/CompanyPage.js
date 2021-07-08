@@ -214,40 +214,38 @@ const CompanyPage = ({searchTicker, userToken}) =>{
                     <Grid item xs={8}>
                         <Grid container direction-="column" alignItems="center" justify="center">
 
-
+                            <Grid item xs={2}/>
+                            <Grid item xs={8}>
+                            <Box pt={1}>
                             {showAlert?
-                                <>
-                                    <Grid item xs={2} />
-                                    <Grid item xs={8}>
-                                    <Slide direction="up" in={showAlert} mountOnEnter unmountOnExit>
-                                        <Box pt={1}>
-                                            <Alert severity="success">Ticker Saved to List!</Alert>
-                                        </Box>
-                                    </Slide>
-                                    </Grid>
-                                    <Grid item xs={2} />
-                                </>
+                                
+                                    
+                                <Slide direction="up" in={showAlert} mountOnEnter unmountOnExit>
+                                    
+                                    <Alert severity="success">Ticker Saved to List!</Alert>
+                    
+                                </Slide>
+                                
                                 :
                                 <> </>
 
                             }
 
                             {errorAlert?
-                                <>
-                                    <Grid item xs={2} />
-                                    <Grid item xs={8}>
-                                    <Slide direction="up" in={errorAlert} mountOnEnter unmountOnExit>
-                                        <Box pt={1}>
-                                            <Alert severity="error">Ticker Is Alread on the User's List!</Alert>
-                                        </Box>
-                                    </Slide>
-                                    </Grid>
-                                    <Grid item xs={2} />
-                                </>
+                                
+                                <Slide direction="up" in={errorAlert} mountOnEnter unmountOnExit>
+                                    
+                                    <Alert severity="error">Ticker Is Alread on the User's List!</Alert>
+                                   
+                                </Slide>
+                                
                                 :
                                 <> </>
 
                             }
+                            </Box>
+                            </Grid>
+                            <Grid item xs={2} />
 
 
                             <Grid item xs={4}>
@@ -363,25 +361,37 @@ const CompanyPage = ({searchTicker, userToken}) =>{
 export default CompanyPage;
 
 /*
-        const createNote = async () =>{
-            var tokenString = 'Token ' + userToken
-            var res = await fetch( 'http://localhost:8000/api/create-new/',{
-                method: 'POST',
-                headers :{
-                    'Authorization' : tokenString,
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    "ticker": currentTicker,
-                    "notes": "Placeholder",
-                })
-                }).then(response =>
-                response.json().then(data=> {
+                            {showAlert?
+                                <>
+                                    <Grid item xs={2} />
+                                    <Grid item xs={8}>
+                                    <Slide direction="up" in={showAlert} mountOnEnter unmountOnExit>
+                                        <Box pt={1}>
+                                            <Alert severity="success">Ticker Saved to List!</Alert>
+                                        </Box>
+                                    </Slide>
+                                    </Grid>
+                                    <Grid item xs={2} />
+                                </>
+                                :
+                                <> </>
 
-                   console.log("Made it to the call here");
-                   console.log("This is the data from create-new", data)
-                   setTrigger(false) //Set the stocks for this user
-            }));
-  
-        }//API call for the backend to create a new object for this stock (STILL WORKING)
+                            }
+
+                            {errorAlert?
+                                <>
+                                    <Grid item xs={2} />
+                                    <Grid item xs={8}>
+                                    <Slide direction="up" in={errorAlert} mountOnEnter unmountOnExit>
+                                        <Box pt={1}>
+                                            <Alert severity="error">Ticker Is Alread on the User's List!</Alert>
+                                        </Box>
+                                    </Slide>
+                                    </Grid>
+                                    <Grid item xs={2} />
+                                </>
+                                :
+                                <> </>
+
+                            }
 */
