@@ -359,39 +359,3 @@ const CompanyPage = ({searchTicker, userToken}) =>{
 }
 
 export default CompanyPage;
-
-/*
-                            {showAlert?
-                                <>
-                                    <Grid item xs={2} />
-                                    <Grid item xs={8}>
-                                    <Slide direction="up" in={showAlert} mountOnEnter unmountOnExit>
-                                        <Box pt={1}>
-                                            <Alert severity="success">Ticker Saved to List!</Alert>
-                                        </Box>
-                                    </Slide>
-                                    </Grid>
-                                    <Grid item xs={2} />
-                                </>
-                                :
-                                <> </>
-
-                            }
-
-                            {errorAlert?
-                                <>
-                                    <Grid item xs={2} />
-                                    <Grid item xs={8}>
-                                    <Slide direction="up" in={errorAlert} mountOnEnter unmountOnExit>
-                                        <Box pt={1}>
-                                            <Alert severity="error">Ticker Is Alread on the User's List!</Alert>
-                                        </Box>
-                                    </Slide>
-                                    </Grid>
-                                    <Grid item xs={2} />
-                                </>
-                                :
-                                <> </>
-
-                            }
-*/
