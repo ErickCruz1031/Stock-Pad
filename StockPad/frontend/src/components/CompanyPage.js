@@ -106,6 +106,8 @@ const CompanyPage = ({searchTicker, userToken}) =>{
                    if (data.Status == 400){
                        console.log("The error was 400")
                        updateErrorAlert(true)//Show the error alert
+                       console.log("About to delay the trigger to turn off the alert ");
+                       setTimeout(() => {console.log("The TIMEOUT FINISHED"); updateErrorAlert(false)}, 4000);
                    }//This is an alert when there is 
                    else{
                     updateAlert(true)//Show the successful alert 
