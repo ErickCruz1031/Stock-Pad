@@ -109,6 +109,8 @@ const CompanyPage = ({searchTicker, userToken}) =>{
                    }//This is an alert when there is 
                    else{
                     updateAlert(true)//Show the successful alert 
+                    console.log("About to delay the trigger to turn off the alert ");
+                    setTimeout(() => {console.log("The TIMEOUT FINISHED"); updateAlert(false)}, 4000); //Let the alert stay on for 4 seconds and then get rid of it 
 
                    }
                    setTrigger(false)//Set trigger off for next call to this function
@@ -177,6 +179,8 @@ const CompanyPage = ({searchTicker, userToken}) =>{
         console.log("User wants to add ", currentTicker);
         console.log("The states are ", errorAlert , " and ",showAlert )
         setTrigger(true)//Set the trigger to call the backend
+        //console.log("About to delay the trigger to turn off the alert ");
+        //setTimeout(() => {console.log("The TIMEOUT FINISHED"); setTrigger(false)}, 4000); //Let the alert stay on for 4 seconds and then get rid of it 
         //When you do this toggle an alert on
     }
 
