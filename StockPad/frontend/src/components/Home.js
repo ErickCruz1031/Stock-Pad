@@ -42,7 +42,6 @@ const Home = ({stockList, queryFunc}) =>{
         queryFunc(textInput);
         history.push('/companypage');
         
-        //Change this after test
     }
 
     const notebookLink = () =>{

@@ -56,7 +56,7 @@ const App = () =>{
     const queryTrigger = input =>{
         console.log("This was the input of the query ", input);
         console.log("We are in the query trigger")
-        setCompPage(!compPageStatus);
+        //setCompPage(!compPageStatus); Seems to be a redundant line of code. Commenting out to see if thats the case
         setQuery(input);
 
         

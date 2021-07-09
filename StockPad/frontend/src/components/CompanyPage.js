@@ -64,6 +64,7 @@ const CompanyPage = ({searchTicker, userToken}) =>{
 
     //Need to change this 
     const [currentTicker, setSearch] = useState(searchTicker);
+    const [requestSuccess, setReqStatus] = useState(true) //True means the request is good, false means we have a bad request 
     const [compName, setName] = useState("");
     const [ceoText, setCeo] = useState("");
     const [descText, setDesc] = useState("");
@@ -129,16 +130,24 @@ const CompanyPage = ({searchTicker, userToken}) =>{
             const res = await fetch(query).catch(function(error){ console.log(error)});
             const data = await res.json();
             console.log("This is the data ", data);
-            setName(data.name);//Set company name
-            setCeo(data.ceo);//Set CEO name
-            setDesc(data.description)//Set company name
-            setCap(data.marketcap);//Set market cap (Will have to format this number at a later time)
-            setSimilar(data.similar); //Set equal to array of similar tickers
-            setURL(data.logo);//Set image URL for logo pictire
-            setcompURL(data.url);//Set the url to the website of the company
-            setAPI(false); //Set it to false before returning
-            //We're going to have to query to see if any ticker the user tries to add is already in the user list 
-            //Here check if the company is already in the list for this user 
+
+            //TODO: Here we need to check if what the request returned is a good or bad request
+            if (data.error){
+                console.log("This stock was not found by the API");
+                setName("Stock Does Not Exist");
+
+            }//If the error component of data exists, then it was a bad request 
+            else{
+                setName(data.name);//Set company name
+                setCeo(data.ceo);//Set CEO name
+                setDesc(data.description)//Set company name
+                setCap(data.marketcap);//Set market cap (Will have to format this number at a later time)
+                setSimilar(data.similar); //Set equal to array of similar tickers
+                setURL(data.logo);//Set image URL for logo pictire
+                setcompURL(data.url);//Set the url to the website of the company
+                setAPI(false); //Set it to false before returning
+
+            }
 
 
         }//API cal to fetch data from the third-party API
