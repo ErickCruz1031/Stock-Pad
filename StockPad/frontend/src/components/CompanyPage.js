@@ -134,10 +134,13 @@ const CompanyPage = ({searchTicker, userToken}) =>{
             //TODO: Here we need to check if what the request returned is a good or bad request
             if (data.error){
                 console.log("This stock was not found by the API");
+                setReqStatus(false);//Set the status of the request as 'false' to indicate a bad request
                 setName("Stock Does Not Exist");
+                setAPI(false);//Set it to false before running so that next time it is changed to true it triggers
 
             }//If the error component of data exists, then it was a bad request 
             else{
+                if (!requestSuccess) setReqStatus(true); //If the request status is false from a previous run and now it's successful, mark it
                 setName(data.name);//Set company name
                 setCeo(data.ceo);//Set CEO name
                 setDesc(data.description)//Set company name
@@ -181,6 +184,7 @@ const CompanyPage = ({searchTicker, userToken}) =>{
     }
 
     const buttonTrigger = e =>{
+        console.log("We are chaging the API state and the current input is ", currentTicker);
         e.preventDefault();
         setAPI(true) //Just change it to trigger the API to call and change the state
         
@@ -273,7 +277,9 @@ const CompanyPage = ({searchTicker, userToken}) =>{
                             <Grid item xs={6} />
 
                             <Grid item xs={12}>
+                            {requestSuccess ?   
                                 <Card className={classes.rootCard}>
+                                    <>
                                     <CardActionArea>
                                                 <> {imageURL ? 
 
@@ -348,7 +354,14 @@ const CompanyPage = ({searchTicker, userToken}) =>{
                                         Add to Notebook
                                         </Button>
                                     </CardActions>
+                                    </>
                                 </Card>
+                                :
+                                <> 
+                                    <Alert severity="error">Ticker Was Not Found. Try Again!</Alert>
+                                </>
+
+                            }
                             </Grid>
                         </Grid>
                     </Grid>
