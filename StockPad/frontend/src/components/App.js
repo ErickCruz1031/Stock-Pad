@@ -12,7 +12,8 @@ import TextField from '@material-ui/core/TextField';
 import Box from '@material-ui/core/Box';
 import {useState, useEffect} from 'react';
 import UserList from './UserList';
-import LoginPage from './LoginPage';
+import Register from './Signin/Register';
+//import LoginPage from './Signin/LoginPage';
 import Signin from './Signin/Signin'
 import {BrowserRouter as Router,
     Switch, Route, Link, Redirect, withRouter} from 'react-router-dom';
@@ -75,6 +76,7 @@ const App = () =>{
             <Router>
                 <Switch>
                     <Route exact path='/' component={() => <SignIn setLogState={updateLogState}/>} />
+                    <Route path= '/register' component = { () => <Register />} />
                     <Route path='/home' component = {() => <Home stockList={tickerList} queryFunc={queryTrigger}/>} />
                     <Route path='/companypage' component={() => <CompanyPage searchTicker={queryTicker} userToken={sessionToken}/>} />
                     <Route path='/userlist' component={() => <UserList userToken={sessionToken} array={userStocks}/>} />

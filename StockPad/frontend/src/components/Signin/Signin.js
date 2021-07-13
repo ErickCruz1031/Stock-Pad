@@ -81,6 +81,12 @@ const useStyles = makeStyles((theme) => ({
 
     }
 
+    const regTrigger = e =>{
+      e.preventDefault();//Prevent the form from submitting 
+      console.log("Trying to register new user ");
+      history.push("/register")
+    }
+
 
     const loginAttempt = () =>{
       console.log("In the frontend about to login...");
@@ -177,7 +183,7 @@ const useStyles = makeStyles((theme) => ({
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="#" variant="body2" onClick = {regTrigger}>
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
