@@ -92,8 +92,6 @@ const Register = () => {
     }
 
     useEffect(() =>{
-
-        
         console.log("In the frontend about to register new user...");
     
         const RegisterUser = async () =>{
@@ -104,7 +102,7 @@ const Register = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    "username": username,
+                    "username": email,
                     "email" : email,
                     "password": pass,
                 })
@@ -162,19 +160,6 @@ const Register = () => {
             fullWidth
             id="email"
             label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-          />
-          <TextField
-            ref={user_Ref}
-            onChange={changeUsername}
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Username"
             name="email"
             autoComplete="email"
             autoFocus
