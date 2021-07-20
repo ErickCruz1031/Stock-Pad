@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {useHistory} from 'react-router-dom';
+import Alert from '@material-ui/lab/Alert';
 
 function Copyright() {
   return (
@@ -51,6 +52,7 @@ const useStyles = makeStyles((theme) => ({
 
     const [username, setUsername] = useState("")
     const [pass, setPass] = useState("");
+    const [failedLogin, setLoginState] = useState(false);
 
 
     const classes = useStyles();
@@ -108,6 +110,7 @@ const useStyles = makeStyles((theme) => ({
               if (data.non_field_errors){
                   console.log("WARNING")
                   console.log("This is the data ", data);
+                  setLoginState(true);//Flag that there was a faulty login attempt
 
               }
               else{
@@ -173,10 +176,21 @@ const useStyles = makeStyles((theme) => ({
             Sign In
           </Button>
           <Grid container>
-            <Grid item>
+            <Grid item cs={12}>
               <Link href="#" variant="body2" onClick = {regTrigger}>
                 {"Don't have an account? Sign Up"}
               </Link>
+            </Grid>
+            <Grid item xs={2}/>
+
+            <Grid item xs={12}>
+              <Box pt={4}>
+                 {failedLogin ?
+                  <Alert severity="error">Invalid credentials. Please try again.</Alert>
+                  : 
+                  <> </>
+                 }
+              </Box>
             </Grid>
           </Grid>
         </form>
