@@ -140,7 +140,7 @@ const CompanyPage = ({searchTicker, userToken}) =>{
 
             }//If the error component of data exists, then it was a bad request 
             else{
-                if (!requestSuccess) setReqStatus(true); //If the request status is false from a previous run and now it's successful, mark it
+                if (!requestSuccess) setReqStatus(true); //If the request status is false from a previous run and now it's successful
                 setName(data.name);//Set company name
                 setCeo(data.ceo);//Set CEO name
                 setDesc(data.description)//Set company name

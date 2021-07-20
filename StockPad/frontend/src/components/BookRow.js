@@ -27,6 +27,8 @@ import Box from '@material-ui/core/Box';
 import Alert from '@material-ui/lab/Alert';
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 const useStyles = makeStyles((theme) => ({
   media: {
@@ -34,11 +36,15 @@ const useStyles = makeStyles((theme) => ({
   },
   expand: {
     transform: 'rotate(0deg)',
-  },
+  }
+}));
+
+/*
+,
   expandOpen: {
     transform: 'rotate(180deg)',
   },
-}));
+*/
 
 
 const BookRow = ({stockObj, sessionToken, deleteFunc}) =>{
@@ -162,7 +168,7 @@ const BookRow = ({stockObj, sessionToken, deleteFunc}) =>{
                         variant="contained"
                         color="secondary"
                         onClick={handleExpandClickDelete}
-                        startIcon={<DeleteIcon />} />
+                        startIcon={<DeleteForeverIcon />} />
                   </CardActions>
               </CardActionArea>
               <Collapse in={expanded} timeout="auto" unmountOnExit>
