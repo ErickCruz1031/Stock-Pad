@@ -14,6 +14,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {useHistory} from 'react-router-dom';
+import Slide from '@material-ui/core/Slide';
+import Alert from '@material-ui/lab/Alert';
 
 function Copyright() {
   return (
@@ -54,6 +56,7 @@ const Register = () => {
     const [pass, setPass] = useState("");
     const [email, setEmail] = useState("");
     const [triggerCall, setTrigger] = useState(false); //Trigger that will be used for the API call 
+    const [errorAlert, setErrorAlert] = useState(false); //At first the alert is not shown
 
 
     const classes = useStyles();
@@ -108,6 +111,7 @@ const Register = () => {
                 })
             }).then(response =>
             response.json().then(data=> {
+                /*
                 if (data.non_field_errors){
                     console.log("WARNING")
                     console.log("This is the data ", data);
@@ -119,9 +123,27 @@ const Register = () => {
                     console.log("Created the user successfully");
                     console.log("The token is ", data.token);
                     console.log("The user is ", data.user);
+                    console.log("This is the data:", data);
                     //triggerCall = false; //Might not be necessary
                     setTrigger(false);
                     history.push('/home')
+                }*/
+
+                if (data.ok) {
+                  console.log("We hit the OK");
+                  //This is the function from the parent component App
+                  console.log("Created the user successfully");
+                  console.log("The token is ", data.token);
+                  console.log("The user is ", data.user);
+                  console.log("This is the data:", data);
+                  //triggerCall = false; //Might not be necessary
+                  setTrigger(false);
+                  history.push('/home')
+                  //return response.json();
+                } else {
+                  //If there was a bad request entered then throw an error (Turn on vaiable to make a visible warning)
+                  setErrorAlert(true); //If it was a bad request show the alert
+                  throw new Error('Something went wrong ...');
                 }
     
             }));
@@ -159,7 +181,7 @@ const Register = () => {
             required
             fullWidth
             id="email"
-            label="Email Address"
+            label="Username"
             name="email"
             autoComplete="email"
             autoFocus
@@ -202,9 +224,34 @@ const Register = () => {
           </Button>
         </form>
       </div>
-      <Box mt={8}>
-        <Copyright />
-      </Box>
+
+      <Grid container direction="row">
+        <Grid item xs={2} />
+        <Grid item xs={8}>
+          <Grid container direction="column" alignItems="center" justify="center">
+            <Box pt={1}>
+              {errorAlert?
+                                  
+                <Slide direction="up" in={errorAlert} mountOnEnter unmountOnExit>
+                    
+                    <Alert severity="error">The username or password endetered are not valid. Please try again.</Alert>
+                    
+                </Slide>
+                
+                :
+                <> </>
+
+              }
+            </Box>
+            <Box mt={8}>
+              <Copyright />
+            </Box>
+          </Grid>
+        </Grid>
+
+        <Grid item xs={2} />
+      </Grid>
+
     </Container>
   );
 }
