@@ -156,6 +156,7 @@ const Register = () => {
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
+            error = {true === errorAlert}
             ref={user_Ref}
             onChange={changeEmail}
             variant="outlined"
@@ -169,6 +170,7 @@ const Register = () => {
             autoFocus
           />
           <TextField
+            error = {true === errorAlert}
             ref={pass_Ref}
             onChange={changePass}
             variant="outlined"
@@ -182,6 +184,7 @@ const Register = () => {
             autoComplete="current-password"
           />
           <TextField
+            error = {true === errorAlert}
             ref={pass_Ref}
             onChange={changePass}
             variant="outlined"
