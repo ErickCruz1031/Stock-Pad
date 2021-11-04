@@ -111,24 +111,6 @@ const Register = () => {
                 })
             }).then(response =>
             response.json().then(data=> {
-                /*
-                if (data.non_field_errors){
-                    console.log("WARNING")
-                    console.log("This is the data ", data);
-    
-                }
-                else{
-                    //setLogState(true, data.token); //Alter the state
-                    //This is the function from the parent component App
-                    console.log("Created the user successfully");
-                    console.log("The token is ", data.token);
-                    console.log("The user is ", data.user);
-                    console.log("This is the data:", data);
-                    //triggerCall = false; //Might not be necessary
-                    setTrigger(false);
-                    history.push('/home')
-                }*/
-
                 if (data.ok) {
                   console.log("We hit the OK");
                   //This is the function from the parent component App
@@ -225,9 +207,8 @@ const Register = () => {
         </form>
       </div>
 
-      <Grid container direction="row">
-        <Grid item xs={2} />
-        <Grid item xs={8}>
+      <Grid container direction="row" xs={12}>
+        <Grid item xs={12}>
           <Grid container direction="column" alignItems="center" justify="center">
             <Box pt={1}>
               {errorAlert?
@@ -248,8 +229,6 @@ const Register = () => {
             </Box>
           </Grid>
         </Grid>
-
-        <Grid item xs={2} />
       </Grid>
 
     </Container>
