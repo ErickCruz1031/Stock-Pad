@@ -48,7 +48,6 @@ class Login(generics.GenericAPIView):
 
 
 #Get User View APIView
-#generics.RetrieveAPIView
 class RetrieveUser(generics.RetrieveAPIView):
     permission_classes =[
         permissions.IsAuthenticated,
