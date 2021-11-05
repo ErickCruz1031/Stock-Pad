@@ -85,7 +85,6 @@ const Register = () => {
       console.log("These are the inputs ", email, ' ', pass)
 
       //Change the state of the trigger variable so that the useEffect will execute 
-      //triggerCall = true; //Set it to true so that useEffect executes 
       setTrigger(true)
       user_Ref.current.value = "";
       pass_Ref.current.value = "";
@@ -106,8 +105,8 @@ const Register = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    "username": email,
-                    "email" : "email@gmail.com",
+                    "username": username,
+                    "email" : email,
                     "password": pass,
                 })
             }).then(response =>
@@ -119,10 +118,8 @@ const Register = () => {
                   console.log("The token is ", data.token);
                   console.log("The user is ", data.user);
                   console.log("This is the data:", data);
-                  //triggerCall = false; //Might not be necessary
                   setTrigger(false);
                   history.push('/home')
-                  //return response.json();
                 } else {
                   //If there was a bad request entered then throw an error (Turn on vaiable to make a visible warning)
                   setErrorAlert(true); //If it was a bad request show the alert
@@ -158,6 +155,20 @@ const Register = () => {
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
+              error = {true === errorAlert}
+              ref={user_Ref}
+              onChange={changeUsername}
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="username"
+              label="Username"
+              name="username"
+              autoComplete="username"
+              autoFocus
+            />
+          <TextField
             error = {true === errorAlert}
             ref={user_Ref}
             onChange={changeEmail}
@@ -166,7 +177,7 @@ const Register = () => {
             required
             fullWidth
             id="email"
-            label="Username"
+            label="Email"
             name="email"
             autoComplete="email"
             autoFocus
@@ -209,31 +220,32 @@ const Register = () => {
             Register
           </Button>
         </form>
-      </div>
 
-      <Grid container direction="row" xs={12}>
-        <Grid item xs={12}>
-          <Grid container direction="column" alignItems="center" justify="center">
-            <Box pt={1}>
-              {errorAlert?
-                                  
-                <Slide direction="up" in={errorAlert} mountOnEnter unmountOnExit>
-                    
-                    <Alert severity="error">The username or password endetered are not valid. Please try again.</Alert>
-                    
-                </Slide>
-                
-                :
-                <> </>
+          <Grid container direction="row" xs={12}>
+          <Grid item xs={12}>
+            <Grid container direction="column" alignItems="center" justify="center">
+              <Box pt={1}>
+                {errorAlert?
+                                    
+                  <Slide direction="up" in={errorAlert} mountOnEnter unmountOnExit>
+                      
+                      <Alert severity="error">The username or password endetered are not valid. Please try again.</Alert>
+                      
+                  </Slide>
+                  
+                  :
+                  <> </>
 
-              }
-            </Box>
-            <Box mt={8}>
-              <Copyright />
-            </Box>
+                }
+              </Box>
+              <Box mt={8}>
+                <Copyright />
+              </Box>
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
+
+      </div>
 
     </Container>
   );
