@@ -72,6 +72,7 @@ const Register = () => {
 
     const changePass = (e) =>{
       setPass(e.target.value);
+      //When we submit we need to check whether the passwords in the two text fields match 
     }
 
     const changeEmail = e =>{
@@ -81,7 +82,7 @@ const Register = () => {
     const submitCreds = (e) =>{
       e.preventDefault();
       console.log("Submitted the credentials");
-      console.log("These are the inputs ", username, ' ', pass)
+      console.log("These are the inputs ", email, ' ', pass)
 
       //Change the state of the trigger variable so that the useEffect will execute 
       //triggerCall = true; //Set it to true so that useEffect executes 
@@ -106,7 +107,7 @@ const Register = () => {
                 },
                 body: JSON.stringify({
                     "username": email,
-                    "email" : email,
+                    "email" : "email@gmail.com",
                     "password": pass,
                 })
             }).then(response =>
@@ -125,6 +126,7 @@ const Register = () => {
                 } else {
                   //If there was a bad request entered then throw an error (Turn on vaiable to make a visible warning)
                   setErrorAlert(true); //If it was a bad request show the alert
+                  console.log(data)
                   throw new Error('Something went wrong ...');
                 }
     
@@ -186,7 +188,6 @@ const Register = () => {
           <TextField
             error = {true === errorAlert}
             ref={pass_Ref}
-            onChange={changePass}
             variant="outlined"
             margin="normal"
             required
