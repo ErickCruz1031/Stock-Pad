@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from knox.models import AuthToken
-from .serializers import UserSerializer,RegisterSerializer,LoginSerializer
+from .serializers import UserSerializer,RegisterSerializer,LoginSerializer,ResetPasswordSerializer,NonAuthUser
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
 from .models import Placeholder
@@ -22,12 +22,23 @@ class Register(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        user=serializer.save()
 
-        return Response({
-            "user": UserSerializer(user, context=self.get_serializer_context()).data,
-            "token": AuthToken.objects.create(user)[1]
-        })
+        print("This is the serializer")
+        print(serializer)
+        print(serializer.errors)
+        if (len(serializer.errors) != 0):
+            #This means the errors dictionary is not empty and there was an error creating the user
+            return Response({
+                "ok": False
+            })
+        else:
+            #If the error dictionary is empty then the user was created successfully. In this case save the user
+            user=serializer.save()
+            return Response({
+                "user": UserSerializer(user, context=self.get_serializer_context()).data,
+                "token": AuthToken.objects.create(user)[1],
+                "ok" : True
+            })
 
 #Login View
 
@@ -36,10 +47,17 @@ class Login(generics.GenericAPIView):
     permission_classes = ()
     
     def post(self, request, *args, **kwargs):
+        print("First")
         serializer = self.get_serializer(data=request.data)
+        print("mayo")
         serializer.is_valid(raise_exception=True)
+        print("hahah")
+        print(serializer)
         user = serializer.validated_data
+        print("This is the serializer: ")
+        print(serializer)
         print("We got to the login here")
+        print(user)
 
         return JsonResponse({
             "user": UserSerializer(user, context=self.get_serializer_context()).data,
@@ -55,6 +73,31 @@ class RetrieveUser(generics.RetrieveAPIView):
     serializer_class = UserSerializer
     def get_object(self):
         return self.request.user
+
+
+
+class ResetPasswordView(generics.GenericAPIView):
+    #serializer_class = ResetPasswordSerializer
+    permission_classes = () #No need to be authenticated for this view to work
+    serializer_class = ResetPasswordSerializer
+    def post(self, request, *args, **kwargs):
+        print("This is the data that was passed")
+        print(request.data)
+        serializer = self.get_serializer(data=request.data)
+        print("mayo")
+        serializer.is_valid(raise_exception=True)
+        print(serializer.errors)
+        print("This is the serialiser")
+        print(serializer)
+        return JsonResponse({"ok": "Yup"})
+
+
+class FindNonAuthenticated(generics.GenericAPIView):
+    serializer_class = NonAuthUser
+    def get_object(self):
+        print("IN this new view")
+        return self.request.user
+
 
 
 '''
