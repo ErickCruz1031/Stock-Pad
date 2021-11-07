@@ -52,44 +52,19 @@ class ResetPasswordSerializer(serializers.Serializer):
     new_password = serializers.CharField()
 
     def validate(self, data):
-        print("!!!!!!!!!!!!!!!!!!!!!!!!")
-        print(data)
-        print("Think this is the username: ")
-        print(data)
-        print("-------------------------")
-        print(data['user'])
+        print("Validating whether or not user exists")
         try:
             u = User.objects.get(username= data['user'])
-            print("THIS IS THE USER")
-            print(u)
             u.set_password(data['new_password'])
             u.save()
+            print("User did exist. Changed password and saved changes.")
             return True 
         except User.DoesNotExist:
-            print("THIS USER DOES NOT EXIST")
-            return False 
+            print("This user does not exist. No changes to be made")
+            feedback = {'status': 'failed'}
+            raise serializers.ValidationError(feedback)
         
 
 
 
-'''
-class ResetPasswordSerializer(serializers.Serializer):
-    #Will use username and email to see if there is a match and if so offer prompt to reset pass
-    current_user = serializers.CharField()
-    new_password = serializers.CharField()
-
-    def validate(self, data):
-        u = User.objects.get(username= self.context['request'].user)
-        u.set_password(new_password)
-        u.save()
-        print("!!!!!!!!!!!!!!!!!!!!!!!!")
-        print(data)
-        print("Think this is the username: ")
-        #print(self.context['request'].user)
-        print("-------------------------")
-        #u = User.objects.get(username= data.current_user)
-        #u.set_password(new_password)
-        #u.save()
-        return True 
-'''
 

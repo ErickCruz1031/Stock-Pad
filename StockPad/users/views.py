@@ -47,10 +47,10 @@ class Login(generics.GenericAPIView):
     permission_classes = ()
     
     def post(self, request, *args, **kwargs):
-        print("First")
         serializer = self.get_serializer(data=request.data)
         print("mayo")
         serializer.is_valid(raise_exception=True)
+        #For bad errors, the feedback will be sent directly from the serializer
         print("hahah")
         print(serializer)
         user = serializer.validated_data
@@ -81,15 +81,10 @@ class ResetPasswordView(generics.GenericAPIView):
     permission_classes = () #No need to be authenticated for this view to work
     serializer_class = ResetPasswordSerializer
     def post(self, request, *args, **kwargs):
-        print("This is the data that was passed")
-        print(request.data)
         serializer = self.get_serializer(data=request.data)
-        print("mayo")
         serializer.is_valid(raise_exception=True)
-        print(serializer.errors)
-        print("This is the serialiser")
-        print(serializer)
-        return JsonResponse({"ok": "Yup"})
+        #For bad requests, the feedback is sent directly from the serializer
+        return JsonResponse({"success": "True"})
 
 
 class FindNonAuthenticated(generics.GenericAPIView):
