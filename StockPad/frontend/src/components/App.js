@@ -19,6 +19,7 @@ import {BrowserRouter as Router,
     Switch, Route, Link, Redirect, withRouter} from 'react-router-dom';
 import SignIn from './Signin/Signin';
 import {useHistory} from 'react-router-dom';
+import ResetPass from './Signin/ResetPass';
 
 
 const useStyles = makeStyles(() =>({
@@ -77,6 +78,7 @@ const App = () =>{
                 <Switch>
                     <Route exact path='/' component={() => <SignIn setLogState={updateLogState}/>} />
                     <Route path= '/register' component = { () => <Register />} />
+                    <Route path= '/reset' component = { () => <ResetPass />} />
                     <Route path='/home' component = {() => <Home stockList={tickerList} queryFunc={queryTrigger}/>} />
                     <Route path='/companypage' component={() => <CompanyPage searchTicker={queryTicker} userToken={sessionToken}/>} />
                     <Route path='/userlist' component={() => <UserList userToken={sessionToken} array={userStocks}/>} />

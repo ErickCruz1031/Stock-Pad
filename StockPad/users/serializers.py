@@ -61,7 +61,7 @@ class ResetPasswordSerializer(serializers.Serializer):
             return True 
         except User.DoesNotExist:
             print("This user does not exist. No changes to be made")
-            feedback = {'status': 'failed'}
+            feedback = {'error': 'Username does not exist.'}
             raise serializers.ValidationError(feedback)
         
 
