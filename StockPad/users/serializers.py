@@ -58,11 +58,17 @@ class ResetPasswordSerializer(serializers.Serializer):
         print(data)
         print("-------------------------")
         print(data['user'])
-        u = User.objects.get(username= data['user'])
-        u.set_password(data['new_password'])
-        u.save()
-        print("DONEEEEE")
-        return True 
+        try:
+            u = User.objects.get(username= data['user'])
+            print("THIS IS THE USER")
+            print(u)
+            u.set_password(data['new_password'])
+            u.save()
+            return True 
+        except User.DoesNotExist:
+            print("THIS USER DOES NOT EXIST")
+            return False 
+        
 
 
 
