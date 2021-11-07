@@ -14,6 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {useHistory} from 'react-router-dom';
 import Alert from '@material-ui/lab/Alert';
+import CircularProgress from '@mui/material/CircularProgress';
 
 function Copyright() {
   return (
@@ -53,6 +54,10 @@ const useStyles = makeStyles((theme) => ({
     const [username, setUsername] = useState("")
     const [pass, setPass] = useState("");
     const [reqState, setReqState] = useState(false);
+    const [reqInProgress, setProgress] = useState(false);//Keeps track of whether or not we've sent the request
+
+    const [requestSuccess, setRequestSuccess] = useState(false);//Set to true when we have a valid request
+    const [requestFail, setRequestFail] = useState(false);//Set to true when the request fails
 
 
     const classes = useStyles();
@@ -89,11 +94,18 @@ const useStyles = makeStyles((theme) => ({
       history.push("/register")
     }
 
+    const loginPageTrigger = e =>{
+      e.preventDefault();
+      console.log("Going back to the home page.");
+      history.push("/");//Push the signin page route
+    }
+
 
     const resetAttempt = () =>{
       console.log("In the frontend about to send reset request...");
 
       const callReset = async () =>{
+          setProgress(true);//Set the CircularProgress component to true to show that we are working on the request
           var res = await fetch( 'http://localhost:8000/auth/resetpassword/',{
               method: 'POST',
               headers : {
@@ -111,11 +123,12 @@ const useStyles = makeStyles((theme) => ({
               if (data.error){
                 console.log("There was an error with the request: \n", data.error[0]);
                 setReqState(true);//If the reset password request failed trigger the alert
+                setRequestFail(true);
               }
               else{
                 console.log("The request was successful");
+                setRequestSuccess(true);
               }
-
 
           }));
 
@@ -128,70 +141,94 @@ const useStyles = makeStyles((theme) => ({
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Reset Password
-        </Typography>
-        <form className={classes.form} noValidate>
-          <TextField
-            ref={user_Ref}
-            onChange={changeUsername}
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="username"
-            label="Username"
-            name="username"
-            autoComplete="username"
-            autoFocus
-          />
-          <TextField
-            ref={pass_Ref}
-            onChange={changePass}
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="newpassword"
-            label="New Password"
-            type="newpassword"
-            id="newpassword"
-            autoComplete="new-password"
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={submitCreds}
-          >
-            Submit Request
-          </Button>
-          <Grid container>
-            <Grid item cs={12}>
-              <Link href="#" variant="body2" onClick = {regTrigger}>
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
-            <Grid item xs={2}/>
+     
+          <div className={classes.paper}>
+            <Avatar className={classes.avatar}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Reset Password
+            </Typography>
 
-            <Grid item xs={12}>
-              <Box pt={4}>
-                 {reqState ?
-                  <Alert severity="error">The username could not be found. Please try again.</Alert>
-                  : 
-                  <> </>
-                 }
-              </Box>
-            </Grid>
-          </Grid>
-        </form>
-      </div>
+            {requestSuccess ? 
+
+              <Grid container>
+                <Grid item xs={12}>
+                  <Box pt={6}>
+                    <Alert severity="success">The request to reset the password was successful. Please go ahead and login.</Alert>
+                  </Box>
+                </Grid>
+                <Grid item xs={12}>
+                  <Box pt={4}>
+                    <Link href="#" variant="body2" onClick = {loginPageTrigger}>
+                      {"Go back to the login page"}
+                    </Link>
+                  </Box>
+                </Grid>
+              
+
+              </Grid>
+
+
+              : 
+                <form className={classes.form} noValidate>
+                  <TextField
+                    ref={user_Ref}
+                    onChange={changeUsername}
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="username"
+                    label="Username"
+                    name="username"
+                    autoComplete="username"
+                    autoFocus
+                  />
+                  <TextField
+                    ref={pass_Ref}
+                    onChange={changePass}
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="newpassword"
+                    label="New Password"
+                    type="newpassword"
+                    id="newpassword"
+                    autoComplete="new-password"
+                  />
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                    onClick={submitCreds}
+                  >
+                    Submit Request
+                  </Button>
+                  <Grid container>
+                    <Grid item cs={12}>
+                      <Link href="#" variant="body2" onClick = {regTrigger}>
+                        {"Don't have an account? Sign Up"}
+                      </Link>
+                    </Grid>
+                    <Grid item xs={2}/>
+
+                    <Grid item xs={12}>
+                      <Box pt={4}>
+                        {requestFail ?
+                          <Alert severity="error">The username could not be found. Please try again.</Alert>
+                          : 
+                          <> </>
+                        }
+                      </Box>
+                    </Grid>
+                  </Grid>
+                </form>
+            }
+          </div>
       <Box mt={8}>
         <Copyright />
       </Box>
