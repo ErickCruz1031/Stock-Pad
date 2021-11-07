@@ -52,6 +52,7 @@ const App = () =>{
     const [queryTicker, setQuery] = useState("");
     const [tempUserList, setUserList] = useState([]);
     const [loggedIn, setLogState] = useState(false); //Variable to tell if user is logged in
+    const [apiKey, setKey] = useState("");//This will be the API key that we pass onto the other components. We fetch during useEffect
 
     const [userStocks, setStocks] = useState([]);
 
@@ -71,6 +72,10 @@ const App = () =>{
         setToken(token);//Set the current session token to pass on to other functions
     }
 
+    useEffect(() => {
+        console.log("Fetching the API key")
+        //TODO: Integrate the code from example.js into here
+    });//It seems that this is how we get it to run only one at the first mount
 
    
     return(        
