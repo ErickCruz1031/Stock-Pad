@@ -117,6 +117,7 @@ const useStyles = makeStyles((theme) => ({
                   setLogState(true, data.token); //Alter the state
                   console.log("The token is ", data.token);
                   console.log("The user is ", data.user);
+                  console.log("The key returned is ", data)
                   history.push('/home')
               }
 
