@@ -31,7 +31,7 @@ const useStyles = makeStyles({
 
 
 
-const StockRow = ({newsItem}) =>{
+const StockRow = ({newsItem, polygonKey}) =>{
     const classes = useStyles();
 
     const [tickerHeadline, updateHeadline] = useState("");
@@ -40,13 +40,15 @@ const StockRow = ({newsItem}) =>{
 
     useEffect(() =>{
       console.log("We are mounting this component into the page.");
-      console.log("Placing this for testing hereeeeee")
+      console.log("The API key passed to STOCKROW: ", polygonKey)
     
       const apiCall = async () =>{
         //https://api.polygon.io/v2/reference/news?limit=10&order=descending&sort=published_utc&ticker=TSLA&apiKey=EwdgXn2W7ptj4vkx9B40T3HiVEvV4v3e
         //const query = "https://api.polygon.io/v1/meta/symbols/" + newsItem.ticker + "/news?perpage=10&page=1&apiKey=EwdgXn2W7ptj4vkx9B40T3HiVEvV4v3e";
-        const query = "https://api.polygon.io/v2/reference/news?limit=10&order=descending&sort=published_utc&ticker="+ newsItem.ticker + "&apiKey=EwdgXn2W7ptj4vkx9B40T3HiVEvV4v3e";
-       console.log("The query in this component is ", query);
+      //const query = "https://api.polygon.io/v2/reference/news?limit=10&order=descending&sort=published_utc&ticker="+ newsItem.ticker + "&apiKey=EwdgXn2W7ptj4vkx9B40T3HiVEvV4v3e";
+      console.log("this is the new method")
+      const query = "https://api.polygon.io/v2/reference/news?limit=10&order=descending&sort=published_utc&ticker="+ newsItem.ticker + "&apiKey=" + polygonKey;
+      console.log("The query in this component is ", query);
         const res = await fetch(query);
         const data = await res.json();
         console.log("This is the data for ", newsItem.ticker, " ", data.results[0]);

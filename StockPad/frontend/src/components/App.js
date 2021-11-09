@@ -66,85 +66,15 @@ const App = () =>{
     }
 
     
-    const updateLogState = (current, token) =>{
+    const updateLogState = (current, data) =>{
         console.log("This is the value ", current);
-        console.log("This is the new token ", token);
-        setToken(token);//Set the current session token to pass on to other functions
+        console.log("This is the new token ", data.token);
+        console.log("This is the apiKey: ", data.key)
+        setToken(data.token);//Set the current session token to pass on to other functions
+        setKey(data.key) // Set the apiKey from the object that was passed from the backend
+        console.log("This is the key now ", apiKey);
     }
 
-    useEffect(() => {
-
-        const fetchApiKey = async () =>{
-            console.log("Fetching the API key");
-
-            var AWS = require('aws-sdk'),
-                region = "us-east-2",
-                secretName = "arn:aws:secretsmanager:us-east-2:144067153410:secret:polygonKey-JKfwAT",
-                secret,
-                decodedBinarySecret;
-    
-            // Create a Secrets Manager client
-            var client =  new AWS.SecretsManager({
-                region: region
-            });
-    
-            client.getSecretValue({SecretId: secretName}, function(err, data) {
-                if (err) {
-                    console.log("Seems we got an error \n", err);
-                    if (err.code === 'DecryptionFailureException'){
-                        console.log("Seems we got 1");
-                        // Secrets Manager can't decrypt the protected secret text using the provided KMS key.
-                        // Deal with the exception here, and/or rethrow at your discretion.
-                        throw err;
-                    }
-                    else if (err.code === 'InternalServiceErrorException'){
-                        // An error occurred on the server side.
-                        // Deal with the exception here, and/or rethrow at your discretion.
-                        console.log("Seems we got 2")
-                        throw err;
-                    }
-                    else if (err.code === 'InvalidParameterException')
-                        // You provided an invalid value for a parameter.
-                        // Deal with the exception here, and/or rethrow at your discretion.
-                        throw err;
-                    else if (err.code === 'InvalidRequestException')
-                        // You provided a parameter value that is not valid for the current state of the resource.
-                        // Deal with the exception here, and/or rethrow at your discretion.
-                        throw err;
-                    else if (err.code === 'ResourceNotFoundException')
-                        // We can't find the resource that you asked for.
-                        // Deal with the exception here, and/or rethrow at your discretion.
-                        throw err;
-                }
-                else {
-                    // Decrypts secret using the associated KMS CMK.
-                    // Depending on whether the secret is a string or binary, one of these fields will be populated.
-                    console.log("We got in here");
-                    if ('SecretString' in data) {
-                        console.log("Data: ", data);
-                        secret = JSON.parse(data.SecretString);
-                    } else {
-                        console.log("In the else with data : \n", data)
-                        let buff = new Buffer(data.SecretBinary, 'base64');
-                        decodedBinarySecret = buff.toString('ascii');
-                    }
-                }
-            
-                console.log("We got here");
-                //var source_secret = JSON.stringify(secret);
-                console.log("This is the secret: ", secret.apiKey);
-                
-                // Your code goes here. 
-            });
-
-
-        }//Function to fetch the AWS Secret (Polygon API Key)
-
-        fetchApiKey();//Call function to fetch the API key
-
-
-        //TODO: Integrate the code from example.js into here
-    });//It seems that this is how we get it to run only one at the first mount
 
    
     return(        
@@ -153,7 +83,7 @@ const App = () =>{
                     <Route exact path='/' component={() => <SignIn setLogState={updateLogState}/>} />
                     <Route path= '/register' component = { () => <Register />} />
                     <Route path= '/reset' component = { () => <ResetPass />} />
-                    <Route path='/home' component = {() => <Home stockList={tickerList} queryFunc={queryTrigger}/>} />
+                    <Route path='/home' component = {() => <Home stockList={tickerList} queryFunc={queryTrigger} apiK = {apiKey}/>} />
                     <Route path='/companypage' component={() => <CompanyPage searchTicker={queryTicker} userToken={sessionToken}/>} />
                     <Route path='/userlist' component={() => <UserList userToken={sessionToken} array={userStocks}/>} />
                     <Route path='/' component={() => <SignIn setLogState={updateLogState}/>} />

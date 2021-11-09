@@ -92,7 +92,6 @@ const useStyles = makeStyles((theme) => ({
 
     const loginAttempt = () =>{
       console.log("In the frontend about to login...");
-      console.log("OMG WE ARE HERE")
 
       const callSignIn = async () =>{
           var res = await fetch( 'http://localhost:8000/auth/login/',{
@@ -114,7 +113,8 @@ const useStyles = makeStyles((theme) => ({
 
               }
               else{
-                  setLogState(true, data.token); //Alter the state
+                  //setLogState(true, data.token); //Alter the state
+                  setLogState(true, data); //Pass the entire data object to set session token and apiKey
                   console.log("The token is ", data.token);
                   console.log("The user is ", data.user);
                   console.log("The key returned is ", data)

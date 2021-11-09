@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useEffect} from 'react';
 import {render} from 'react-dom'
 import Header from './Header'
 import Grid from '@material-ui/core/Grid';
@@ -25,7 +25,7 @@ const useStyles = makeStyles(() =>({
 
 
 //const Home = ({stockList, queryFunc}) =>{
-const Home = ({stockList, queryFunc}) =>{
+const Home = ({stockList, queryFunc, apiK}) =>{
 
     const classes = useStyles();
     const history = useHistory();
@@ -50,6 +50,10 @@ const Home = ({stockList, queryFunc}) =>{
 
 
     }
+
+    useEffect(() =>{
+        console.log("THE KEY PASSED TO HOME IS ", apiK);
+    })
    
     return(
         <div className={classes.root}>
@@ -80,9 +84,9 @@ const Home = ({stockList, queryFunc}) =>{
                             <Grid item xs={6} />
 
                             <Grid item xs={12}>
-                                <StockRow newsItem={stockList[0]} />
-                                <StockRow newsItem={stockList[1]} />
-                                <StockRow newsItem={stockList[2]}/>
+                                <StockRow newsItem={stockList[0]} polygonKey={apiK}/>
+                                <StockRow newsItem={stockList[1]} polygonKey={apiK}/>
+                                <StockRow newsItem={stockList[2]} polygonKey={apiK}/>
                             </Grid>
 
                         </Grid>
