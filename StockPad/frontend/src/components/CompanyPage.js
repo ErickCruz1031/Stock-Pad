@@ -57,7 +57,7 @@ const useStyles = makeStyles(() =>({
 
 
 //const CompanyPage = ({searchTicker}) =>{
-const CompanyPage = ({searchTicker, userToken}) =>{
+const CompanyPage = ({searchTicker, userToken, apiKey}) =>{
 
     const classes = useStyles();
     const history = useHistory();
@@ -125,8 +125,9 @@ const CompanyPage = ({searchTicker, userToken}) =>{
 
 
         const apiCall = async() =>{
-            const query = "https://api.polygon.io/v1/meta/symbols/" + currentTicker + "/company?apiKey=EwdgXn2W7ptj4vkx9B40T3HiVEvV4v3e";
-            console.log("this is the query: ", query);
+            console.log("Calling the API...")
+            const query = "https://api.polygon.io/v1/meta/symbols/" + currentTicker + "/company?apiKey=" + apiKey;
+            console.log("This the query from CompanyPage: ", query);
             const res = await fetch(query).catch(function(error){ console.log(error)});
             const data = await res.json();
             console.log("This is the data ", data);
@@ -160,14 +161,13 @@ const CompanyPage = ({searchTicker, userToken}) =>{
         
         if(apiState){
 
-            console.log("Executing the API call")
+            console.log("Executing the API call to search information for a new ticker")
             apiCall();
         }//Only call the polygon API if the state is true 
 
         if(createTrigger){
             //Query the tickers that this user already has on their list 
             //Update: createNote already returns an error 400 if the ticker is already part of the user's book
-
             createNote();
             console.log("We just called the new function to test it out");
 

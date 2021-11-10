@@ -84,7 +84,7 @@ const App = () =>{
                     <Route path= '/register' component = { () => <Register />} />
                     <Route path= '/reset' component = { () => <ResetPass />} />
                     <Route path='/home' component = {() => <Home stockList={tickerList} queryFunc={queryTrigger} apiK = {apiKey}/>} />
-                    <Route path='/companypage' component={() => <CompanyPage searchTicker={queryTicker} userToken={sessionToken}/>} />
+                    <Route path='/companypage' component={() => <CompanyPage searchTicker={queryTicker} userToken={sessionToken} apiKey={apiKey}/>} />
                     <Route path='/userlist' component={() => <UserList userToken={sessionToken} array={userStocks}/>} />
                     <Route path='/' component={() => <SignIn setLogState={updateLogState}/>} />
                 </Switch>
