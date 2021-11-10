@@ -12,15 +12,6 @@ import {useState, useEffect} from 'react';
 //import "regenerator-runtime/runtime";
 import regeneratorRuntime from "regenerator-runtime"
 
-
-/*
-
-  root: {
-    maxWidth: 345,
-    paddingTop:2,
-  },
-
-*/
 const useStyles = makeStyles({
   media: {
     height: 160,
@@ -40,15 +31,11 @@ const StockRow = ({newsItem, polygonKey}) =>{
 
     useEffect(() =>{
       console.log("We are mounting this component into the page.");
-      console.log("The API key passed to STOCKROW: ", polygonKey)
     
       const apiCall = async () =>{
-        //https://api.polygon.io/v2/reference/news?limit=10&order=descending&sort=published_utc&ticker=TSLA&apiKey=EwdgXn2W7ptj4vkx9B40T3HiVEvV4v3e
-        //const query = "https://api.polygon.io/v1/meta/symbols/" + newsItem.ticker + "/news?perpage=10&page=1&apiKey=EwdgXn2W7ptj4vkx9B40T3HiVEvV4v3e";
-      //const query = "https://api.polygon.io/v2/reference/news?limit=10&order=descending&sort=published_utc&ticker="+ newsItem.ticker + "&apiKey=EwdgXn2W7ptj4vkx9B40T3HiVEvV4v3e";
-      console.log("this is the new method")
-      const query = "https://api.polygon.io/v2/reference/news?limit=10&order=descending&sort=published_utc&ticker="+ newsItem.ticker + "&apiKey=" + polygonKey;
-      console.log("The query in this component is ", query);
+        console.log("Fetching the API request")
+        const query = "https://api.polygon.io/v2/reference/news?limit=10&order=descending&sort=published_utc&ticker="+ newsItem.ticker + "&apiKey=" + polygonKey;
+        console.log("The query in this component is ", query);
         const res = await fetch(query);
         const data = await res.json();
         console.log("This is the data for ", newsItem.ticker, " ", data.results[0]);
@@ -58,19 +45,7 @@ const StockRow = ({newsItem, polygonKey}) =>{
 
         console.log("We are in the new and improved Stockrow");
 
-        /*
-        var res = await fetch("https://api.polygon.io/v2/reference/news?limit=10&order=descending&sort=published_utc&ticker="+ newsItem.ticker + "&apiKey=EwdgXn2W7ptj4vkx9B40T3HiVEvV4v3e")
-          .then(response => 
-            response.json().then(data =>{
-              console.log("Now the data for ", newsItem.ticker, " ", data[0])
-            }))
-            */
-
       }
-
-
-
-
 
 
 
@@ -94,7 +69,7 @@ const StockRow = ({newsItem, polygonKey}) =>{
         </CardActionArea>
       </Card>
     )
-}
+}//Component that shows up within the Home component to show news/descriptions of articles
 
 export default StockRow;
 

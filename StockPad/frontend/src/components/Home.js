@@ -51,9 +51,6 @@ const Home = ({stockList, queryFunc, apiK}) =>{
 
     }
 
-    useEffect(() =>{
-        console.log("THE KEY PASSED TO HOME IS ", apiK);
-    })
    
     return(
         <div className={classes.root}>

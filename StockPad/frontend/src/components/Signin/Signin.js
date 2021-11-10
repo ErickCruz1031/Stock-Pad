@@ -107,18 +107,14 @@ const useStyles = makeStyles((theme) => ({
           }).then(response =>
           response.json().then(data=> {
               if (data.non_field_errors){
-                  console.log("WARNING")
-                  console.log("This is the data ", data);
+                  console.log("There was an error with the login. \n This is the data: ", data);
                   setLoginState(true);//Flag that there was a faulty login attempt
 
               }
               else{
                   //setLogState(true, data.token); //Alter the state
                   setLogState(true, data); //Pass the entire data object to set session token and apiKey
-                  console.log("The token is ", data.token);
-                  console.log("The user is ", data.user);
-                  console.log("The key returned is ", data)
-                  history.push('/home')
+                  history.push('/home'); //Route the user to the Home component
               }
 
           }));
