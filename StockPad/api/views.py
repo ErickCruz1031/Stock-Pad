@@ -40,7 +40,13 @@ class getStockNote(APIView):
                 val_list.append(data)
             print("This is the serialized data", val_list)
             return Response(val_list, status=status.HTTP_200_OK)
-        return Response({'Owner Not Found: Invalid Owner'}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            val_list = []
+            return Response(val_list, status=status.HTTP_200_OK) #Return an empty list to show that there are no stocks in the user list
+            #Need to handle when the user does not have any stocks on their list
+            #At this point the user is already authenticated to there is no need to create an error that the user is not valid
+        #If it gets to this point something went wrong because the if or else need to trigger and return something
+        return Response({'Unknown error. Check api/views.py'}, status=status.HTTP_404_NOT_FOUND)
 
 
 class CreateStockNoteView(APIView):
