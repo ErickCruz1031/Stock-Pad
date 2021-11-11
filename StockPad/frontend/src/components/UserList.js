@@ -6,6 +6,8 @@ import BookRow from './BookRow'
 import Box from '@material-ui/core/Box';
 import useStateWithCallback from 'use-state-with-callback';
 import {useHistory} from 'react-router-dom';
+import Typography from '@mui/material/Typography';
+import Alert from '@material-ui/lab/Alert';
 
 
 const useStyles = makeStyles(() =>({
@@ -27,7 +29,9 @@ const UserList = ({userToken, array}) =>{
     const [userStocks, setStocks] = useState([]);
     const [fetched, setFetch] = useState(false) //Set to empty array
     const [deleteTicker, setDeleteTicker] = useState("")//This is the ticker that we are going to delete when we opt for that option
-    const [deleteRequest, setDeleteState] = useState(false);//Will trigger the delete call
+    const [deleteRequest, setDeleteState] = useState(false);//Will trigger the delete call]
+    const [emptyList, setEmptyState] = useState(false);//This variable indicates whether or not the user list is empty
+    //Add a variable so that when the stockList is empty, we display a message that says so
 
 
     useEffect (() =>{
@@ -77,15 +81,15 @@ const UserList = ({userToken, array}) =>{
 
                     console.log("Made it to the call here");
                     console.log("This is the data from get-stocknote", data.length)
-                    console.log(data)
-                   console.log(userStocks, " is the obj afterwards")
-                   console.log(typeof([]))
-                   setStocks(data)
-                   //setFetch(!fetched) //Set the stocks for this user
-                   console.log(typeof(data))
-                    
-                    
-  
+                    setStocks(data)
+                    if (data.length == 0){
+                        console.log("This user did not have any stocks in their personal list.");
+                        setEmptyState(true);//Set the variable to true if the data returned from the call is empty
+                    }
+                    //Might have to deal with the scenario where user list was previously 0 but now its not
+                    //Dont think that can be changed from this single view right now 
+                    console.log(typeof(data))
+
             }));
   
         }
@@ -131,19 +135,37 @@ const UserList = ({userToken, array}) =>{
                 <Grid container direction="row" spacing={1}>
                     <Grid item xs={2} />
 
-                    <Grid item xs={8}>
-                        <Box pt={6}>
-                        <Grid container direction="column" spacing={2}>
-                            {userStocks.map((stock) =>( 
-                                <Grid item xs={12} key={stock.ticker}>
-                                    <BookRow stockObj={stock} sessionToken={userToken} deleteFunc={deleteCallback}/>
-                                </Grid>
-                            ))}
+                    { emptyList ? 
 
-
+                        <Grid item xs={8}>
+                            <Box pt={6}>
+                                <Alert severity="error">User List is Empty!</Alert>
+                            </Box>
                         </Grid>
-                        </Box>
-                    </Grid>
+                    
+                
+                    
+                    : 
+
+                        <Grid item xs={8}>
+                            <Box pt={6}>
+                            <Grid container direction="column" spacing={2}>
+                                {userStocks.map((stock) =>( 
+                                    <Grid item xs={12} key={stock.ticker}>
+                                        <BookRow stockObj={stock} sessionToken={userToken} deleteFunc={deleteCallback}/>
+                                    </Grid>
+                                ))}
+
+
+                            </Grid>
+                            </Box>
+                        </Grid>
+                    
+                    
+                    
+                    }
+
+                    
 
                     <Grid item xs={2} />
 
