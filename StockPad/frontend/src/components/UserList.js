@@ -59,7 +59,15 @@ const UserList = ({userToken, array}) =>{
                     console.log("This is the data from DELETE", data)
                     console.log("Backend call completed")
                     if (data.Status == 200){
-                        setStocks(data.objects)
+                        if (data.objects.length == 0){
+                            console.log("The user list is now empty.")
+                            setEmptyState(true);//Set the variable to true if the data returned from the call is empty
+
+                        }//If after we delete there are no more stocks on the list we trigger the alert
+                        else{
+                            setStocks(data.objects)
+                        }
+                        
                     }
                    
                     

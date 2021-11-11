@@ -27,6 +27,13 @@ const StockRow = ({newsItem, polygonKey}) =>{
 
     const [tickerHeadline, updateHeadline] = useState("");
     const [headlineDesc, updateDesc] = useState("");
+    const [articleURL, setURL] = useState("");//This will be the URL of the article for this component
+
+    const cardClick = e =>{
+      e.preventDefault();
+      console.log("User clicked the card!")
+      window.open(articleURL);//Testing this first
+    }//Function to redirect the user if they click on one of the articles
 
 
     useEffect(() =>{
@@ -41,6 +48,7 @@ const StockRow = ({newsItem, polygonKey}) =>{
         console.log("This is the data for ", newsItem.ticker, " ", data.results[0]);
         updateHeadline(data.results[0].title);
         updateDesc(data.results[0].description);
+        setURL(data.results[0].article_url);
         //Just use the title and summary for the first one right now
 
         console.log("We are in the new and improved Stockrow");
@@ -56,7 +64,7 @@ const StockRow = ({newsItem, polygonKey}) =>{
 
 
     return(
-        <Card>
+        <Card onClick={cardClick}>
         <CardActionArea>
           <CardContent className={classes.media}>
             <Typography gutterBottom variant="h5" component="h2">
